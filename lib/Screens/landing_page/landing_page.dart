@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cult_events/Screens/signin/InviteCode.dart';
+import 'package:cult_events/Screens/signin/signin.dart';
 import 'package:flutter/material.dart';
 
 class LandingPage extends StatelessWidget {
@@ -21,7 +23,7 @@ class LandingPage extends StatelessWidget {
               autoPlayInterval: const Duration(
                 seconds: 3,
               ),
-              autoPlayAnimationDuration: const Duration(milliseconds: 250),
+              autoPlayAnimationDuration: const Duration(milliseconds: 500),
               autoPlayCurve: Curves.ease,
             ),
             items: [
@@ -42,8 +44,7 @@ class LandingPage extends StatelessWidget {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Navigator.push(context,
-                      //     MaterialPageRoute(builder: (context) => SignIn()));
+                      Navigator.pushNamed(context, SignIn.routeName);
                     },
                     style: ButtonStyle(
                       backgroundColor:
@@ -67,18 +68,18 @@ class LandingPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       GestureDetector(
-                        onTap: () {},
-                        child: const Text(
+                        onTap: () {
+                          Navigator.pushNamed(context, InviteCode.routeName);
+
+                        },
+                        child: Text(
                           "Have an Invite Code?",
-                          style: TextStyle(
-                              color: Color.fromRGBO(95, 74, 139, 1),
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15),
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
-                      )
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

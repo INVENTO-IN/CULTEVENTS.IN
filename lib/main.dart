@@ -1,4 +1,6 @@
 import 'package:cult_events/Screens/landing_page/landing_page.dart';
+import 'package:cult_events/Screens/signin/InviteCode.dart';
+import 'package:cult_events/Screens/signin/signin.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -42,17 +44,26 @@ class MyApp extends StatelessWidget {
                 fontSize: 20,
                 color: Colors.white,
               ),
-          subtitle1: const TextStyle(
+              subtitle1: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+                color: Color.fromRGBO(186, 85, 211, 10),
+              ),
+          subtitle2: const TextStyle(
             fontFamily: 'Poppins',
-            fontWeight: FontWeight.w600,
-            fontSize: 20,
-            color:  Color.fromRGBO(186, 85, 211, 10),
-            ),
+            fontWeight: FontWeight.w400,
+            fontSize: 15,
+            color: Color.fromRGBO(186, 85, 211, 10),
+          ),
             ),
       ),
       initialRoute: '/',
       routes: {
-        '/': (ctx) =>const  LandingPage(),
+        '/': (ctx) => const LandingPage(),
+        SignIn.routeName: (ctx) => SignIn(),
+        InviteCode.routeName: (ctx) => InviteCode(),
+
       },
     );
   }
