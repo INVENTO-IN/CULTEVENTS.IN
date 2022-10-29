@@ -21,11 +21,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromRGBO(186, 85, 211, 10), //purple
+          primary: const Color.fromRGBO(138,80,196, 10), //purple
           secondary: Colors.white,
         ),
         buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: const Color.fromRGBO(186, 85, 211, 10),
+          buttonColor: const Color.fromRGBO(138,80,196, 10),
           textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -48,13 +48,13 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w600,
                 fontSize: 20,
-                color: Color.fromRGBO(186, 85, 211, 10),
+                color: Color.fromRGBO(138,80,196,10),
               ),
           subtitle2: const TextStyle(
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
             fontSize: 15,
-            color: Color.fromRGBO(186, 85, 211, 10),
+            color: Color.fromRGBO(138,80,196, 10),
           ),
             ),
       ),

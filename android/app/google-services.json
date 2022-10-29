@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "399779492600",
+    "project_id": "cultevents-de04a",
+    "storage_bucket": "cultevents-de04a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399779492600:android:37dd0f96400984720ec10d",
+        "android_client_info": {
+          "package_name": "com.example.cult_events"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399779492600-d1rhi9ooo0808ro935ghfp95ugi0acso.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cult_events",
+            "certificate_hash": "7b8824c20410aea157df19092446e77612456cb8"
+          }
+        },
+        {
+          "client_id": "399779492600-m81c12t7arobvr3h5gk5upo4lb15rimi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_SwKu9waNX26RlFiwCh0njWF2yG-Zp6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399779492600-m81c12t7arobvr3h5gk5upo4lb15rimi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
