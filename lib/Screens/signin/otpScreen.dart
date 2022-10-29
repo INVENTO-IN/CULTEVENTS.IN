@@ -1,18 +1,17 @@
 import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
-import 'package:cult_events/Screens/signin/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class otp extends StatefulWidget {
+class OtpScreen extends StatefulWidget {
   final String verificationId;
 
-  const otp({Key? key, required this.verificationId}) : super(key: key);
+  const OtpScreen({Key? key, required this.verificationId}) : super(key: key);
 
   @override
-  State<otp> createState() => _otpState();
+  State<OtpScreen> createState() => _OtpScreenState();
 }
 
-class _otpState extends State<otp> {
+class _OtpScreenState extends State<OtpScreen> {
   TextEditingController otp = TextEditingController();
   bool showLoading = false;
 
@@ -26,9 +25,9 @@ class _otpState extends State<otp> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(
+          icon:  Icon(
             Icons.chevron_left_rounded,
-            color: Color.fromRGBO(95, 74, 139, 1),
+            color:Theme.of(context).colorScheme.primary,
             size: 45,
           ),
           onPressed: () {
@@ -53,8 +52,12 @@ class _otpState extends State<otp> {
               padding: const EdgeInsets.all(20.0),
               child: TextFormField(
                 autofocus: false,
+                style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600),
                 keyboardType: TextInputType.number,
-                cursorColor: Color.fromRGBO(95, 74, 139, 1),
+                cursorColor:Theme.of(context).colorScheme.primary,
                 textInputAction: TextInputAction.done,
                 controller: otp,
                 decoration: InputDecoration(
@@ -68,7 +71,7 @@ class _otpState extends State<otp> {
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
+                    borderSide:const  BorderSide(
                         color: Color.fromRGBO(95, 74, 139, 1), width: 2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -80,7 +83,7 @@ class _otpState extends State<otp> {
               child: Material(
                 elevation: 3,
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromRGBO(95, 74, 139, 1),
+                color:Theme.of(context).colorScheme.primary,
                 child: MaterialButton(
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   minWidth: MediaQuery.of(context).size.width,
@@ -91,13 +94,13 @@ class _otpState extends State<otp> {
                     verifyCode();
                   },
                   child: showLoading
-                      ?  SizedBox(
-                    height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                    color: Colors.white,
-                  ),
-                      )
+                      ? const SizedBox(
+                          height: 25,
+                          width: 25,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                          ),
+                        )
                       : const Text(
                           "Submit",
                           textAlign: TextAlign.center,
@@ -120,24 +123,64 @@ class _otpState extends State<otp> {
         verificationId: widget.verificationId, smsCode: otp.text.toString());
     try {
       await _auth.signInWithCredential(credential).then((value) {
-        print("Logged in succesfully");
+        print("Logged in successfully");
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) =>const  HomeScreen(),
           ),
         );
       });
-      final snackBar = SnackBar(content: Text("Login Successful"));
+      final snackBar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color:const  Color.fromRGBO(138, 80, 196, 60),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(0),
+                child: Text('Login Successful',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText2),
+              ),
+            ],
+          ),
+        ),
+      );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } catch (e) {
       setState(() {
-        showLoading =  false;
+        showLoading = false;
       });
-      // final snackBar =  SnackBar(
-      //     content:  Text(
-      //         "The sms code has expired or you entered a wrong code. Please re-send the code to try again."));
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())));
+      final snackBar = SnackBar(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: const Color.fromRGBO(138, 80, 196, 60),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                  'The sms code has expired or you entered a wrong code. Please try again.',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText2),
+            ],
+          ),
+        ),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
   }
 }

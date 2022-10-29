@@ -146,7 +146,7 @@ class _SignInState extends State<SignIn> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => otp(verificationId: verificationId,),
+                            builder: (context) => OtpScreen(verificationId: verificationId,),
                           ),
                         );
                         setState(() {
