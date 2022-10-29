@@ -1,3 +1,4 @@
+import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:flutter/material.dart';
 
 class InviteCode extends StatefulWidget {
@@ -85,6 +86,25 @@ class _InviteCodeState extends State<InviteCode> {
                 //padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: () {
+                  if (phonenum.text == "8296770370") {
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+                      ),
+                    );
+                  } else if (phonenum.text == "9606158125") {
+
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(),
+
+                      ),
+                    );
+                  }
                   print(phonenum.text);
                 },
                 child: const Text(

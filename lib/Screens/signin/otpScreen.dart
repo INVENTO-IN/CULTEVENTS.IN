@@ -1,9 +1,10 @@
 import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 class OtpScreen extends StatefulWidget {
   final String verificationId;
+
 
   const OtpScreen({Key? key, required this.verificationId}) : super(key: key);
 
@@ -16,6 +17,9 @@ class _OtpScreenState extends State<OtpScreen> {
   bool showLoading = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final String uid = FirebaseAuth.instance.currentUser!.uid;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -122,9 +126,11 @@ class _OtpScreenState extends State<OtpScreen> {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId, smsCode: otp.text.toString());
     try {
+      final Id = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      print(Id);
       await _auth.signInWithCredential(credential).then((value) {
         print("Logged in successfully");
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) =>const  HomeScreen(),
