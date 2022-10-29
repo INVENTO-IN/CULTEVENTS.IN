@@ -1,9 +1,13 @@
 import 'package:cult_events/Screens/landing_page/landing_page.dart';
 import 'package:cult_events/Screens/signin/InviteCode.dart';
 import 'package:cult_events/Screens/signin/signin.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

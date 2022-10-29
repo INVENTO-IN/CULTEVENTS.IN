@@ -1,3 +1,5 @@
+import 'package:cult_events/Screens/signin/otpScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 String verificationIDReceived = "";
@@ -13,6 +15,7 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   TextEditingController phonenum = TextEditingController();
   bool showLoading = false;
+  final auth = FirebaseAuth.instance;
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -113,12 +116,59 @@ class _SignInState extends State<SignIn> {
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).colorScheme.primary,
               child: MaterialButton(
+
                 //padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                 minWidth: MediaQuery.of(context).size.width,
                 onPressed: () {
+                  setState(() {
+                    showLoading = true;
+                  });
+                  auth.verifyPhoneNumber(
+                      phoneNumber: '+91' + phonenum.text,
+                      verificationCompleted: (_) {
+                        setState(() {
+                          showLoading = false;
+                        });
+                      },
+                      verificationFailed: (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString()),
+                          ),
+
+                        );
+                        setState(() {
+                          showLoading = false;
+                        });
+                        print(e.message);
+                      },
+                      codeSent: (String verificationId, int? token) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => otp(verificationId: verificationId,),
+                          ),
+                        );
+                        setState(() {
+                          showLoading = false;
+                        });
+                      },
+                      codeAutoRetrievalTimeout: (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e),
+                          ),
+                        );
+                        setState(() {
+                          showLoading = false;
+                        });
+                        print(e);
+                      });
                   print(phonenum.text);
                 },
-                child: const Text("Get otp",
+                child: showLoading ? const CircularProgressIndicator(
+                  color: Colors.white,
+                ) : const  Text("Get otp",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.white,
