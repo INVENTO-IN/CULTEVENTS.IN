@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cult_events/Screens/signin/otpScreen.dart';
+import 'package:cult_events/Screens/signin/signup.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -26,8 +26,7 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
-    return
-      Scaffold(
+    return Scaffold(
       key: _formKey,
       backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
@@ -125,104 +124,138 @@ class _SignInState extends State<SignIn> {
               child: MaterialButton(
                 //padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                 minWidth: MediaQuery.of(context).size.width,
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
                     showLoading = true;
                   });
-                  auth.verifyPhoneNumber(
-                      phoneNumber: '+91${phonenum.text}',
-                      verificationCompleted: (_) {
-                        setState(() {
-                          showLoading = false;
-                        });
-                      },
-                      verificationFailed: (e) {
-                        final snackBar = SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          content: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(138, 80, 196, 60),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    e.toString(),
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 15),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        setState(() {
-                          showLoading = false;
-                        });
-                        print(e.message);
-                      },
-                      codeSent: (String verificationId, int? token) async {
+                  CollectionReference _collectionRef =
+                      FirebaseFirestore.instance.collection('users');
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtpScreen(
-                              verificationId: verificationId,
+                  // Get docs from collection reference
+                  QuerySnapshot querySnapshot = await _collectionRef
+                      .where('phoneNumber', isEqualTo: phonenum.text)
+                      .get();
+                  //print(querySnapshot);
+                  // if(querySnapshot == null){
+                  //   print('new user');
+                  // }else{
+                  //   print('existing user');
+                  // }
 
-                            ),
-                          ),
-                        );
-                       await  FirebaseFirestore.instance.collection('users').doc(auth.currentUser!.uid).set({
-                          'phoneNumber': phonenum.text,
-                        });
-                        final  uid = FirebaseAuth.instance.currentUser!.uid;
-                        print(uid);
-                        
-                        setState(() {
-                          showLoading = false;
-                        });
-                      },
-                      codeAutoRetrievalTimeout: (e) {
-                        final snackBar = SnackBar(
-                          behavior: SnackBarBehavior.floating,
-                          backgroundColor: Colors.transparent,
-                          elevation: 0,
-                          content: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: const Color.fromRGBO(138, 80, 196, 60),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    e,
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 15),
+                  // Get data from docs and convert map to List
+                  final allData =
+                      querySnapshot.docs.map((doc) => doc.data()).toList();
+                  if (allData.isEmpty) {
+
+                    print('new user');
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUp(
+                          phoneNumber: phonenum.text,
+                        ),
+                      ),
+                    );
+                  } else {
+                    print('old user');
+                    await auth.verifyPhoneNumber(
+                        phoneNumber: '+91${phonenum.text}',
+                        verificationCompleted: (_) {
+                          setState(() {
+                            showLoading = false;
+                          });
+                        },
+                        verificationFailed: (e) {
+                          final snackBar = SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(138, 80, 196, 60),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      e.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 15),
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                        setState(() {
-                          showLoading = false;
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          setState(() {
+                            showLoading = false;
+                          });
+                          print(e.message);
+                        },
+                        codeSent: (String verificationId, int? token) async {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtpScreen(
+                                verificationId: verificationId,
+                              ),
+                            ),
+                          );
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(auth.currentUser!.uid)
+                              .set({
+                            'phoneNumber': phonenum.text,
+                          });
+                          // final  uid = FirebaseAuth.instance.currentUser!.uid;
+                          // print(uid);
+
+                          setState(() {
+                            showLoading = false;
+                          });
+                        },
+                        codeAutoRetrievalTimeout: (e) {
+                          final snackBar = SnackBar(
+                            behavior: SnackBarBehavior.floating,
+                            backgroundColor: Colors.transparent,
+                            elevation: 0,
+                            content: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: const Color.fromRGBO(138, 80, 196, 60),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      e,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          setState(() {
+                            showLoading = false;
+                          });
+                          print(e);
                         });
-                        print(e);
-                      });
+                  }
+
+                  print(allData);
 
                   //FirebaseFirestore.instance.collection('users').doc();
                   print(phonenum.text);
-                 // print(FirebaseAuth.instance.currentUser!.uid);
+                  // print(FirebaseAuth.instance.currentUser!.uid);
                   // if(FirebaseAuth.instance.currentUser!.uid.isNotEmpty){
                   //   print("exixting user");
                   //

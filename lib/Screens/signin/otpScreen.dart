@@ -2,9 +2,9 @@ import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 class OtpScreen extends StatefulWidget {
   final String verificationId;
-
 
   const OtpScreen({Key? key, required this.verificationId}) : super(key: key);
 
@@ -19,8 +19,6 @@ class _OtpScreenState extends State<OtpScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final String uid = FirebaseAuth.instance.currentUser!.uid;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,9 +27,9 @@ class _OtpScreenState extends State<OtpScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon:  Icon(
+          icon: Icon(
             Icons.chevron_left_rounded,
-            color:Theme.of(context).colorScheme.primary,
+            color: Theme.of(context).colorScheme.primary,
             size: 45,
           ),
           onPressed: () {
@@ -61,7 +59,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     color: Colors.black,
                     fontWeight: FontWeight.w600),
                 keyboardType: TextInputType.number,
-                cursorColor:Theme.of(context).colorScheme.primary,
+                cursorColor: Theme.of(context).colorScheme.primary,
                 textInputAction: TextInputAction.done,
                 controller: otp,
                 decoration: InputDecoration(
@@ -75,7 +73,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide:const  BorderSide(
+                    borderSide: const BorderSide(
                         color: Color.fromRGBO(95, 74, 139, 1), width: 2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -87,7 +85,7 @@ class _OtpScreenState extends State<OtpScreen> {
               child: Material(
                 elevation: 3,
                 borderRadius: BorderRadius.circular(10),
-                color:Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.primary,
                 child: MaterialButton(
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   minWidth: MediaQuery.of(context).size.width,
@@ -126,14 +124,15 @@ class _OtpScreenState extends State<OtpScreen> {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId, smsCode: otp.text.toString());
     try {
-      final Id = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      print(Id);
+      final id =
+          await FirebaseFirestore.instance.collection('users').doc(uid).get();
+      print(id);
       await _auth.signInWithCredential(credential).then((value) {
         print("Logged in successfully");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>const  HomeScreen(),
+            builder: (context) => const HomeScreen(),
           ),
         );
       });
@@ -144,7 +143,7 @@ class _OtpScreenState extends State<OtpScreen> {
         content: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color:const  Color.fromRGBO(138, 80, 196, 60),
+            color: const Color.fromRGBO(138, 80, 196, 60),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
