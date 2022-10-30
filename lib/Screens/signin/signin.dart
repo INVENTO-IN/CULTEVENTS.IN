@@ -61,8 +61,7 @@ class _SignInState extends State<SignIn> {
               key: formKey,
               child: TextFormField(
                 validator: (value) {
-                  if (value!.isEmpty ||
-                      value.length != 10) {
+                  if (value!.isEmpty || value.length != 10) {
                     return "Enter correct number";
                   } else {
                     return null;
@@ -137,14 +136,12 @@ class _SignInState extends State<SignIn> {
                 onPressed: () async {
                   FocusScope.of(context).unfocus();
                   final isValid = formKey.currentState!.validate();
-                  if(isValid) {
-
-
+                  if (isValid) {
                     setState(() {
                       showLoading = true;
                     });
                     CollectionReference _collectionRef =
-                    FirebaseFirestore.instance.collection('users');
+                        FirebaseFirestore.instance.collection('users');
 
                     // Get docs from collection reference
                     QuerySnapshot querySnapshot = await _collectionRef
@@ -159,16 +156,15 @@ class _SignInState extends State<SignIn> {
 
                     // Get data from docs and convert map to List
                     final allData =
-                    querySnapshot.docs.map((doc) => doc.data()).toList();
+                        querySnapshot.docs.map((doc) => doc.data()).toList();
                     if (allData.isEmpty) {
                       print('new user');
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              SignUp(
-                                phoneNumber: phonenum.text,
-                              ),
+                          builder: (context) => SignUp(
+                            phoneNumber: phonenum.text,
+                          ),
                         ),
                       );
                     } else {
@@ -205,8 +201,8 @@ class _SignInState extends State<SignIn> {
                                 ),
                               ),
                             );
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                snackBar);
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
                             setState(() {
                               showLoading = false;
                             });
@@ -216,10 +212,9 @@ class _SignInState extends State<SignIn> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    OtpScreen(
-                                      verificationId: verificationId,
-                                    ),
+                                builder: (context) => OtpScreen(
+                                  verificationId: verificationId,
+                                ),
                               ),
                             );
                             // await FirebaseFirestore.instance

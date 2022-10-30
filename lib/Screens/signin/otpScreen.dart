@@ -19,7 +19,6 @@ class _OtpScreenState extends State<OtpScreen> {
   bool showLoading = false;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final String uid = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +91,7 @@ class _OtpScreenState extends State<OtpScreen> {
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   minWidth: MediaQuery.of(context).size.width,
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     setState(() {
                       showLoading = true;
                     });
@@ -126,9 +126,7 @@ class _OtpScreenState extends State<OtpScreen> {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.verificationId, smsCode: otp.text.toString());
     try {
-      final id =
-          await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      print(id);
+
       await _auth.signInWithCredential(credential).then((value) {
         print("Logged in successfully");
         Navigator.pushReplacement(
