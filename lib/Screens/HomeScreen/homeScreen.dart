@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -40,9 +41,10 @@ class HomeScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              FirebaseAuth.instance.signOut();
+
             },
-            child: Text("Press me"),
+            child: Text("Log Out"),
           ),
 
         ],

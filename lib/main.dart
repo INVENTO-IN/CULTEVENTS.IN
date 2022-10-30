@@ -1,6 +1,8 @@
+import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:cult_events/Screens/landing_page/landing_page.dart';
 import 'package:cult_events/Screens/signin/InviteCode.dart';
 import 'package:cult_events/Screens/signin/signin.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -25,11 +27,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromRGBO(138,80,196, 10), //purple
+          primary: const Color.fromRGBO(138, 80, 196, 10), //purple
           secondary: Colors.white,
         ),
         buttonTheme: ButtonTheme.of(context).copyWith(
-          buttonColor: const Color.fromRGBO(138,80,196, 10),
+          buttonColor: const Color.fromRGBO(138, 80, 196, 10),
           textTheme: ButtonTextTheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
@@ -52,22 +54,30 @@ class MyApp extends StatelessWidget {
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.w500,
                 fontSize: 18,
-                color: Color.fromRGBO(138,80,196,10),
+                color: Color.fromRGBO(138, 80, 196, 10),
               ),
-          subtitle2: const TextStyle(
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w400,
-            fontSize: 13,
-            color: Colors.white,
-          ),
+              subtitle2: const TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.w400,
+                fontSize: 13,
+                color: Colors.white,
+              ),
             ),
       ),
-      initialRoute: '/',
+      home: StreamBuilder(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (ctx, userSnapshot) {
+          if (userSnapshot.hasData) {
+            return const HomeScreen();
+          }
+          return const LandingPage();
+        },
+      ),
+      //initialRoute: '/',
       routes: {
-        '/': (ctx) => const LandingPage(),
+        LandingPage.routeName: (ctx) => const LandingPage(),
         SignIn.routeName: (ctx) => SignIn(),
         InviteCode.routeName: (ctx) => InviteCode(),
-
       },
     );
   }
