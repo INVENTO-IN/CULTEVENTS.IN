@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../HomeScreen/homeScreen.dart';
 
 class SignUp extends StatefulWidget {
   final String phoneNumber;
@@ -175,100 +174,109 @@ class _SignUpState extends State<SignUp> {
                     setState(() {
                       showLoading = true;
                     });
-                    await auth.verifyPhoneNumber(
-                        phoneNumber: '+91$phoneNumber',
-                        verificationCompleted: (_) {
-                          setState(() {
-                            showLoading = false;
-                          });
-                        },
-                        verificationFailed: (e) {
-                          final snackBar = SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                            content: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(138, 80, 196, 60),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      e.toString(),
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15),
+                    try {
+                      await auth.verifyPhoneNumber(
+                          phoneNumber: '+91$phoneNumber',
+                          verificationCompleted: (_) {
+                            setState(() {
+                              showLoading = false;
+                            });
+                          },
+                          verificationFailed: (e) {
+                            final snackBar = SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(138, 80, 196, 60),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        e.toString(),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          setState(() {
-                            showLoading = false;
-                          });
-                          print(e.message);
-                        },
-                        codeSent:
-                            (String SignUpVerificationId, int? token) async {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => OtpScreen(
-                                verificationId: SignUpVerificationId,
-                              ),
-                            ),
-                          );
-                          await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(auth.currentUser!.uid)
-                              .set({
-                            'phoneNumber': phoneNumber,
-                            'userName': nameController,
-                            'email': emailController,
-                          });
-                          // final  uid = FirebaseAuth.instance.currentUser!.uid;
-                          // print(uid);
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            setState(() {
+                              showLoading = false;
+                            });
+                            print(e.message);
+                          },
 
-                          setState(() {
-                            showLoading = false;
-                          });
-                        },
-                        codeAutoRetrievalTimeout: (e) {
-                          final snackBar = SnackBar(
-                            behavior: SnackBarBehavior.floating,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0,
-                            content: Container(
-                              padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                color: const Color.fromRGBO(138, 80, 196, 60),
-                                borderRadius: BorderRadius.circular(10),
+                          codeSent:
+                              (String SignUpVerificationId, int? token) async {
+                            print(SignUpVerificationId);
+                            print("HIii");
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SignupOtp(
+                                   signUpVerificationID: SignUpVerificationId,
+                                ),
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      e,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(fontSize: 15),
+                            );
+                            final uid = FirebaseAuth.instance.currentUser!.uid;
+                            print(uid);
+                            await FirebaseFirestore.instance
+                                .collection('users')
+                                .doc(auth.currentUser!.uid)
+                                .set({
+                              'phoneNumber': phoneNumber,
+                              'userName': nameController.text,
+                              'email': emailController.text,
+                            });
+
+                            setState(() {
+                              showLoading = false;
+                            });
+                          },
+                          codeAutoRetrievalTimeout: (e) {
+                            final snackBar = SnackBar(
+                              behavior: SnackBarBehavior.floating,
+                              backgroundColor: Colors.transparent,
+                              elevation: 0,
+                              content: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: const Color.fromRGBO(138, 80, 196, 60),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        e,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(fontSize: 15),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          setState(() {
-                            showLoading = false;
+                            );
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                            setState(() {
+                              showLoading = false;
+                            });
+                            print(e);
                           });
-                          print(e);
-                        });
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   child: showLoading
                       ? const SizedBox(
@@ -294,72 +302,4 @@ class _SignUpState extends State<SignUp> {
       ),
     );
   }
-
-// void verifyCode() async {
-//   PhoneAuthCredential credential = PhoneAuthProvider.credential(
-//       verificationId: widget.verificationId, smsCode: name.text.toString());
-//   try {
-//     final Id = await FirebaseFirestore.instance.collection('users').doc(uid).get();
-//     print(Id);
-//     await _auth.signInWithCredential(credential).then((value) {
-//       print("Logged in successfully");
-//       Navigator.pushReplacement(
-//         context,
-//         MaterialPageRoute(
-//           builder: (context) =>const  HomeScreen(),
-//         ),
-//       );
-//     });
-//     final snackBar = SnackBar(
-//       behavior: SnackBarBehavior.floating,
-//       backgroundColor: Colors.transparent,
-//       elevation: 0,
-//       content: Container(
-//         padding: const EdgeInsets.all(8),
-//         decoration: BoxDecoration(
-//           color:const  Color.fromRGBO(138, 80, 196, 60),
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Padding(
-//               padding: const EdgeInsets.all(0),
-//               child: Text('Login Successful',
-//                   textAlign: TextAlign.center,
-//                   style: Theme.of(context).textTheme.bodyText2),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   } catch (e) {
-//     setState(() {
-//       showLoading = false;
-//     });
-//     final snackBar = SnackBar(
-//       behavior: SnackBarBehavior.floating,
-//       backgroundColor: Colors.transparent,
-//       elevation: 0,
-//       content: Container(
-//         padding: const EdgeInsets.all(8),
-//         decoration: BoxDecoration(
-//           color: const Color.fromRGBO(138, 80, 196, 60),
-//           borderRadius: BorderRadius.circular(10),
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Text(
-//                 'The sms code has expired or you entered a wrong code. Please try again.',
-//                 textAlign: TextAlign.center,
-//                 style: Theme.of(context).textTheme.bodyText2),
-//           ],
-//         ),
-//       ),
-//     );
-//     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-//   }
-// }
 }
