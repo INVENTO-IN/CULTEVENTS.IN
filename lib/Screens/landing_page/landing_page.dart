@@ -56,7 +56,7 @@ class LandingPage extends StatelessWidget {
                       ),
                     ),
                     child: Text(
-                      "Sign in",
+                      "Sign In/Sign Up",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.subtitle1,
                     ),

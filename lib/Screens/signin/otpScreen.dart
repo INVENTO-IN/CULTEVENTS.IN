@@ -196,7 +196,11 @@ class _OtpScreenState extends State<OtpScreen> {
 
 class SignupOtp extends StatefulWidget {
   final signUpVerificationID;
-  const SignupOtp({Key? key,required this.signUpVerificationID}) : super(key: key);
+  final phoneNumber;
+  final userName;
+  final email;
+
+  const SignupOtp({Key? key,required this.signUpVerificationID, required this.phoneNumber, required this.userName, required this.email}) : super(key: key);
 
   @override
   State<SignupOtp> createState() => _SignupOtpState();
@@ -310,14 +314,31 @@ class _SignupOtpState extends State<SignupOtp> {
   }
 
   void verifyCode() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final phoneNumber = widget.phoneNumber;
+    final userName = widget.userName;
+    final email = widget.email;
+    final
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: widget.signUpVerificationID, smsCode: otp.text.toString());
     try {
       // final id =
       // await FirebaseFirestore.instance.collection('users').doc(uid).get();
       // print(id);
-      await _auth.signInWithCredential(credential).then((value) {
+      await _auth.signInWithCredential(credential).then((value) async {
         print("Logged in successfully");
+        final uid = FirebaseAuth.instance.currentUser!.uid;
+        print(uid);
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(auth.currentUser!.uid)
+            .set({
+          'phoneNumber': phoneNumber ,
+          'userName': userName,
+          'email': email,
+          'time': DateTime.now(),
+        });
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

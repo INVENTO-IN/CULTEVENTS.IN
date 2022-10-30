@@ -205,12 +205,12 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                           );
-                          await FirebaseFirestore.instance
-                              .collection('users')
-                              .doc(auth.currentUser!.uid)
-                              .set({
-                            'phoneNumber': phonenum.text,
-                          });
+                          // await FirebaseFirestore.instance
+                          //     .collection('users')
+                          //     .doc(auth.currentUser!.uid)
+                          //     .set({
+                          //   'phoneNumber': phonenum.text,
+                          // });
                           // final  uid = FirebaseAuth.instance.currentUser!.uid;
                           // print(uid);
 

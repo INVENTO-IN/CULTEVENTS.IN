@@ -218,25 +218,29 @@ class _SignUpState extends State<SignUp> {
                           codeSent:
                               (String SignUpVerificationId, int? token) async {
                             print(SignUpVerificationId);
-                            print("HIii");
+                            print("Hiii");
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => SignupOtp(
                                    signUpVerificationID: SignUpVerificationId,
+                                  phoneNumber: phoneNumber,
+                                  userName: nameController.text,
+                                  email: emailController.text,
                                 ),
                               ),
                             );
                             final uid = FirebaseAuth.instance.currentUser!.uid;
                             print(uid);
-                            await FirebaseFirestore.instance
-                                .collection('users')
-                                .doc(auth.currentUser!.uid)
-                                .set({
-                              'phoneNumber': phoneNumber,
-                              'userName': nameController.text,
-                              'email': emailController.text,
-                            });
+                            // await FirebaseFirestore.instance
+                            //     .collection('users')
+                            //     .doc(auth.currentUser!.uid)
+                            //     .set({
+                            //   'phoneNumber': phoneNumber,
+                            //   'userName': nameController.text,
+                            //   'email': emailController.text,
+                            //   'time': DateTime.now(),
+                            // });
 
                             setState(() {
                               showLoading = false;
