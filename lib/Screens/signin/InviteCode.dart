@@ -1,5 +1,6 @@
 import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class InviteCode extends StatefulWidget {
   const InviteCode({Key? key}) : super(key: key);
@@ -10,7 +11,7 @@ class InviteCode extends StatefulWidget {
 }
 
 class _InviteCodeState extends State<InviteCode> {
-  TextEditingController phonenum = TextEditingController();
+  TextEditingController code = TextEditingController();
   bool showLoading = false;
   final _formKey = GlobalKey<FormState>();
 
@@ -57,10 +58,10 @@ class _InviteCodeState extends State<InviteCode> {
               keyboardType: TextInputType.number,
               cursorColor: Theme.of(context).colorScheme.primary,
               textInputAction: TextInputAction.done,
-              controller: phonenum,
+              controller: code,
               decoration: InputDecoration(
                 contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                hintText: "Enter number",
+                hintText: "Enter Code",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(
@@ -85,29 +86,90 @@ class _InviteCodeState extends State<InviteCode> {
               child: MaterialButton(
                 //padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                 minWidth: MediaQuery.of(context).size.width,
-                onPressed: () {
-                  if (phonenum.text == "8296770370") {
+                onPressed: () async {
+                  setState(() {
+                    showLoading = true;
+                  });
+                  CollectionReference _collectionRef =
+                      FirebaseFirestore.instance.collection('inviteCode');
 
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                  // Get docs from collection reference
+                  QuerySnapshot querySnapshot = await _collectionRef
+                      .where('code', isEqualTo: code.text)
+                      .get();
+
+                  final allData =
+                      querySnapshot.docs.map((doc) => doc.data()).toList();
+
+                  if (allData.isEmpty) {
+                    print("incorrect");
+                    final snackBar = SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(138, 80, 196, 60),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Text('Entered Code is invalid!',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                          ],
+                        ),
                       ),
                     );
-                  } else if (phonenum.text == "9606158125") {
-
-
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
-
+                    setState(() {
+                      showLoading = false;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  } else {
+                    setState(() {
+                      showLoading = true;
+                    });
+                    print('correct');
+                    final snackBar = SnackBar(
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color.fromRGBO(138, 80, 196, 60),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(0),
+                              child: Text('Login Successful',
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                          ],
+                        ),
                       ),
                     );
+                    setState(() {
+                      showLoading = false;
+                    });
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (ctx) =>  HomeScreen()));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-                  print(phonenum.text);
+
+                  print(code.text);
+                  print(allData);
                 },
-                child: const Text(
+                child: showLoading ?const  CircularProgressIndicator() : const  Text(
                   "Verify",
                   textAlign: TextAlign.center,
                   style: TextStyle(
