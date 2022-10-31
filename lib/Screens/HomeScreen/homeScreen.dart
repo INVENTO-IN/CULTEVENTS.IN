@@ -1,3 +1,4 @@
+import 'package:cult_events/Screens/landing_page/landing_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,14 +14,14 @@ class HomeScreen extends StatelessWidget {
       content: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Color.fromRGBO(138, 80, 196, 60),
+          color: const Color.fromRGBO(138, 80, 196, 60),
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
               child: Text('Login Successful',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText2),
@@ -37,16 +38,19 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             },
-            child: Text("Press me"),
+            child: const Text("Press me"),
           ),
           ElevatedButton(
-            onPressed: () {
-              FirebaseAuth.instance.signOut();
-
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const LandingPage(),
+                ),
+              );
             },
-            child: Text("Log Out"),
+            child:const  Text("Log Out"),
           ),
-
         ],
       ),
     ));

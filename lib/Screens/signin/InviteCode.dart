@@ -162,22 +162,25 @@ class _InviteCodeState extends State<InviteCode> {
                       showLoading = false;
                     });
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (ctx) =>  HomeScreen()));
+                        MaterialPageRoute(builder: (ctx) => HomeScreen()));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
-
                   print(code.text);
                   print(allData);
                 },
-                child: showLoading ?const  CircularProgressIndicator() : const  Text(
-                  "Verify",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Poppins',
-                    fontSize: 17,
-                  ),
-                ),
+                child: showLoading
+                    ? const CircularProgressIndicator(
+                        color: Colors.white,
+                      )
+                    : const Text(
+                        "Verify",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Poppins',
+                          fontSize: 17,
+                        ),
+                      ),
               ),
             ),
           )

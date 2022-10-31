@@ -32,7 +32,7 @@ class _SignUpState extends State<SignUp> {
           icon: Icon(
             Icons.chevron_left_rounded,
             color: Theme.of(context).colorScheme.primary,
-            size: 45,
+            size: 50,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
                 padding: const EdgeInsets.all(20),
                 child: Container(
                   width: double.infinity,
-                  height: 55,
+                  height: 50,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10),
@@ -74,7 +74,7 @@ class _SignUpState extends State<SignUp> {
                         //   width: 5,
                         // ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.only(left: 15),
                           child: Icon(
                             Icons.person,
                             color: Theme.of(context).colorScheme.primary,
@@ -91,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                           phoneNumber,
                           textAlign: TextAlign.start,
                           style: const TextStyle(
-                            fontSize: 17,
+                            fontSize: 16,
                             color: Colors.black,
                             fontWeight: FontWeight.w600,
                           ),
@@ -103,11 +103,11 @@ class _SignUpState extends State<SignUp> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 5, left: 20, right: 20, bottom: 20),
+                    top: 0, left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty ||
-                        !RegExp(r'^[a-z A-Z]+$').hasMatch(value) || value.length > 5) {
+                        !RegExp(r'^[a-z A-Z]+$').hasMatch(value) || value.length < 5) {
                       return "Enter correct name";
                     } else {
                       return null;
@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   autofocus: false,
                   style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w600),
                   keyboardType: TextInputType.text,
@@ -142,7 +142,7 @@ class _SignUpState extends State<SignUp> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 5, left: 20, right: 20, bottom: 20),
+                    top: 0, left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   validator: (value) {
                     if (value!.isEmpty || !value.contains('@')) {
@@ -153,7 +153,7 @@ class _SignUpState extends State<SignUp> {
                   },
                   autofocus: false,
                   style: const TextStyle(
-                      fontSize: 17,
+                      fontSize: 16,
                       color: Colors.black,
                       fontWeight: FontWeight.w600),
                   keyboardType: TextInputType.emailAddress,

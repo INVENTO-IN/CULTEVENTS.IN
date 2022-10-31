@@ -70,7 +70,7 @@ class _SignInState extends State<SignIn> {
                 maxLength: 10,
                 autofocus: false,
                 style: const TextStyle(
-                    fontSize: 17,
+                    fontSize: 16,
                     color: Colors.black,
                     fontWeight: FontWeight.w500),
                 keyboardType: TextInputType.number,
@@ -89,8 +89,8 @@ class _SignInState extends State<SignIn> {
                           child: Row(
                             children: [
                               SizedBox(
-                                height: 25,
-                                width: 25,
+                                height: 20,
+                                width: 20,
                                 child: Image.asset('assets/images/india.png'),
                               ),
                               const VerticalDivider(
@@ -100,7 +100,7 @@ class _SignInState extends State<SignIn> {
                               const Text(
                                 "(+91)",
                                 style: TextStyle(
-                                    color: Colors.black, fontSize: 17),
+                                    color: Colors.black, fontSize: 15),
                               ),
                             ],
                           ),
