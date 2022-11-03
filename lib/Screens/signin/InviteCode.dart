@@ -1,6 +1,8 @@
-import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
+import 'package:cult_events/bottomBar.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../HomeScreen 1st/homeScreen.dart';
 
 class InviteCode extends StatefulWidget {
   const InviteCode({Key? key}) : super(key: key);
@@ -162,7 +164,7 @@ class _InviteCodeState extends State<InviteCode> {
                       showLoading = false;
                     });
                     Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (ctx) => HomeScreen()));
+                        MaterialPageRoute(builder: (ctx) => BottomBar()));
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                   print(code.text);

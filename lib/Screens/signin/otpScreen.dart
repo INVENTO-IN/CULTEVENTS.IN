@@ -1,7 +1,9 @@
-import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
+import 'package:cult_events/bottomBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../HomeScreen 1st/homeScreen.dart';
 
 class OtpScreen extends StatefulWidget {
   final String verificationId;
@@ -49,32 +51,35 @@ class _OtpScreenState extends State<OtpScreen> {
                     color: Colors.black),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: TextFormField(
-                autofocus: false,
-                style: const TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600),
-                keyboardType: TextInputType.number,
-                cursorColor: Theme.of(context).colorScheme.primary,
-                textInputAction: TextInputAction.done,
-                controller: otp,
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
-                  hintText: "Enter OTP",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(
-                      width: 0.2,
-                      color: Color.fromRGBO(230, 154, 141, 1),
+            SizedBox(
+              //height: 90,
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextFormField(
+                  autofocus: false,
+                  style: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600),
+                  keyboardType: TextInputType.number,
+                  cursorColor: Theme.of(context).colorScheme.primary,
+                  textInputAction: TextInputAction.done,
+                  controller: otp,
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
+                    hintText: "Enter OTP",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(
+                        width: 0.2,
+                        color: Color.fromRGBO(230, 154, 141, 1),
+                      ),
                     ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        color: Color.fromRGBO(95, 74, 139, 1), width: 2),
-                    borderRadius: BorderRadius.circular(10.0),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: Color.fromRGBO(95, 74, 139, 1), width: 2),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                 ),
               ),
@@ -107,13 +112,14 @@ class _OtpScreenState extends State<OtpScreen> {
                           "Submit",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -129,10 +135,11 @@ class _OtpScreenState extends State<OtpScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) => const BottomBar(),
           ),
         );
       });
+
       final snackBar = SnackBar(
         behavior: SnackBarBehavior.floating,
         backgroundColor: Colors.transparent,
@@ -157,6 +164,33 @@ class _OtpScreenState extends State<OtpScreen> {
         ),
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-verification-code') {
+        final snackBar = SnackBar(
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          content: Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: const Color.fromRGBO(138, 80, 196, 60),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(0),
+                  child: Text('invalid-verification-code',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyText2),
+                ),
+              ],
+            ),
+          ),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
     } catch (e) {
       setState(() {
         showLoading = false;
@@ -341,10 +375,13 @@ class _SignupOtpState extends State<SignupOtp> {
           'time': DateTime.now(),
         });
 
+
+
+
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
+            builder: (context) =>  BottomBar(),
           ),
         );
       });

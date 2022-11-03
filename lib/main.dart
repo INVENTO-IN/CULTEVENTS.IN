@@ -1,10 +1,12 @@
-import 'package:cult_events/Screens/HomeScreen/homeScreen.dart';
 import 'package:cult_events/Screens/landing_page/landing_page.dart';
 import 'package:cult_events/Screens/signin/InviteCode.dart';
 import 'package:cult_events/Screens/signin/signin.dart';
+import 'package:cult_events/bottomBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
+import 'Screens/HomeScreen 1st/homeScreen.dart';
 
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
               bodyText2: const TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.normal,
-                fontSize: 20,
+                fontSize: 17,
                 color: Colors.white,
               ),
               subtitle1: const TextStyle(
@@ -68,7 +70,7 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (ctx, userSnapshot) {
           if (userSnapshot.hasData) {
-            return const HomeScreen();
+            return const BottomBar();
           }
           return const LandingPage();
         },

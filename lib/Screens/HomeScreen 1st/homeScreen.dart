@@ -31,6 +31,10 @@ class HomeScreen extends StatelessWidget {
       ),
     );
     return Scaffold(
+        extendBody: true,
+        appBar: AppBar(
+          title: Text("HIi"),
+        ),
         body: Center(
       child: Column(
         children: [

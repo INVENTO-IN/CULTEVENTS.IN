@@ -38,6 +38,8 @@ dependencies:
   firebase_core:
   firebase_auth:
   cloud_firestore:
+  dot_navigation_bar:
+
 
 dev_dependencies:
   flutter_test:
