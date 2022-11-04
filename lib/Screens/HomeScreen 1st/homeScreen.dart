@@ -33,7 +33,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
-          title: Text("HIi"),
+          title: Text("CultEvents"),
         ),
         body: Center(
       child: Column(
@@ -44,17 +44,7 @@ class HomeScreen extends StatelessWidget {
             },
             child: const Text("Press me"),
           ),
-          ElevatedButton(
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const LandingPage(),
-                ),
-              );
-            },
-            child:const  Text("Log Out"),
-          ),
+
         ],
       ),
     ));

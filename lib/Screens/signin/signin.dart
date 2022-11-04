@@ -140,11 +140,11 @@ class _SignInState extends State<SignIn> {
                     setState(() {
                       showLoading = true;
                     });
-                    CollectionReference _collectionRef =
+                    CollectionReference collectionRef =
                         FirebaseFirestore.instance.collection('users');
 
                     // Get docs from collection reference
-                    QuerySnapshot querySnapshot = await _collectionRef
+                    QuerySnapshot querySnapshot = await collectionRef
                         .where('phoneNumber', isEqualTo: phonenum.text)
                         .get();
                     //print(querySnapshot);
@@ -231,30 +231,30 @@ class _SignInState extends State<SignIn> {
                             });
                           },
                           codeAutoRetrievalTimeout: (e) {
-                            final snackBar = SnackBar(
-                              behavior: SnackBarBehavior.floating,
-                              backgroundColor: Colors.transparent,
-                              elevation: 0,
-                              content: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: const Color.fromRGBO(138, 80, 196, 60),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        e,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 15),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            );
+                            // final snackBar = SnackBar(
+                            //   behavior: SnackBarBehavior.floating,
+                            //   backgroundColor: Colors.transparent,
+                            //   elevation: 0,
+                            //   content: Container(
+                            //     padding: const EdgeInsets.all(8),
+                            //     decoration: BoxDecoration(
+                            //       color: const Color.fromRGBO(138, 80, 196, 60),
+                            //       borderRadius: BorderRadius.circular(10),
+                            //     ),
+                            //     child: Row(
+                            //       mainAxisAlignment: MainAxisAlignment.center,
+                            //       children: [
+                            //         Expanded(
+                            //           child: Text(
+                            //             e,
+                            //             textAlign: TextAlign.center,
+                            //             style: TextStyle(fontSize: 15),
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            // );
                             // ScaffoldMessenger.of(context).showSnackBar(
                             //     snackBar);
                             setState(() {
