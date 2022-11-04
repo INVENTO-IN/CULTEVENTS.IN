@@ -41,6 +41,7 @@ dependencies:
   dot_navigation_bar:
 
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
