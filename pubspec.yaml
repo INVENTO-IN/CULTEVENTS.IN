@@ -40,6 +40,7 @@ dependencies:
   cloud_firestore:
   dot_navigation_bar:
   firebase_storage:
+  path_provider:
 
 
 

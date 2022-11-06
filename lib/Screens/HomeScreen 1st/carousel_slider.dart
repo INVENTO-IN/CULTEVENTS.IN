@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 
 final List<String> imgList = [
   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
@@ -19,18 +20,25 @@ class _CarouselState extends State<Carousel> {
   int _current = 0;
 
   final CarouselController _controller = CarouselController();
-  Future<void> listPhotos() async {
 
-  }
+  // Future<void> listPhotos() async {
+  //   firebase_storage.ListResult result = await firebase_storage.FirebaseStorage.instance.ref().child('carousel').listAll();
+  //   for(firebase_storage.Reference ref in result.items){
+  //     String url = await firebase_storage.FirebaseStorage.instance.ref(ref.fullPath).getDownloadURL();
+  //     print(url);
+  //   }
+  //
+  // }
 
   // final ref = FirebaseStorage.instance.ref().child('carousel').getDownloadURL();
   //
-  // void initState() {
-  //   super.initState();
-  //   var ref = FirebaseStorage.instance.ref().child('carousel');
-  //   ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
-  //
-  // }
+  late Future<List<FirebaseFile>> futureFiles;
+
+  @override
+  void initState() {
+    super.initState();
+    futureFiles = FirebaseApi.listAll('carousel/');
+  }
 
   //  Future<dynamic> loadImage() async {
   //
@@ -119,6 +127,38 @@ class _CarouselState extends State<Carousel> {
             );
           }).toList(),
         ),
+        FutureBuilder<List<FirebaseFile>>(
+          future: futureFiles,
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Some error occured"),
+                  );
+                } else {
+                  final files = snapshot.data!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: files.length,
+                      itemBuilder: (context, index) {
+                      final file = files[index];
+                      return buildFile(context, file);
+                      },
+                      )
+                    ],
+                  );
+                }
+            }
+          },
+        )
         // Expanded(
         //   //Image Loading code goes here
         //   child: FutureBuilder(
@@ -143,13 +183,13 @@ class _CarouselState extends State<Carousel> {
         // ),
 
         // FutureBuilder(
-        //   future: downloadUrl(),
-        //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        //   future:  _getImage(context, image),
+        //     builder: ( context, snapshot) {
         //     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
         //       return Container(
         //         width: 300,
         //         height: 300,
-        //         child: Image.network(snapshot.data!),
+        //         child: snapshot.data,
         //       );
         //     }
         //     return Container();
@@ -174,4 +214,54 @@ class _CarouselState extends State<Carousel> {
       ],
     );
   }
+
+  Widget buildFile(BuildContext context, FirebaseFile file) => Image.network(
+        file.url,
+        width: 100,
+        height: 100,
+        fit: BoxFit.cover,
+      );
+}
+
+// Future<Widget> _getImage(BuildContext context,String image) async{
+//   Image m;
+//   await FireStorageService.loadFromStorage(context, image).then((downloadUrl) {
+//     m = Image.network(downloadUrl.toString(), fit:  BoxFit.scaleDown,);
+//   });
+//   return m;
+// }
+// class FireStorageService extends ChangeNotifier {
+//   FireStorageService();
+//   static Future<dynamic> loadFromStorage(BuildContext context, String image) async{
+//     return await firebase_storage.FirebaseStorage.instance.ref().child(image).getDownloadURL();
+//
+//   }
+// }
+class FirebaseApi {
+  static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
+      Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
+
+  static Future<List<FirebaseFile>> listAll(String path) async {
+    final ref = FirebaseStorage.instance.ref(path);
+    final result = await ref.listAll();
+    final urls = await _getDownloadLinks(result.items);
+
+    return urls
+        .asMap()
+        .map((index, url) {
+          final ref = result.items[index];
+          final file = FirebaseFile(ref: ref, url: url);
+
+          return MapEntry(index, file);
+        })
+        .values
+        .toList();
+  }
+}
+
+class FirebaseFile {
+  final Reference ref;
+  final String url;
+
+  const FirebaseFile({required this.ref, required this.url});
 }
