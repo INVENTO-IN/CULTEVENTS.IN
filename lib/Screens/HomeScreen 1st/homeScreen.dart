@@ -13,15 +13,17 @@ class HomeScreen extends StatelessWidget {
           elevation: 0,
           title: Text(
             "CultEvents",
-            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+            style:  Theme.of(context).textTheme.subtitle1 ,
           ),
         ),
-        body: Column(
-          children: const [
-            Carousel(),
+        body: SingleChildScrollView(
+          child: Column(
+            children: const [
+              Carousel(),
 
 
-          ],
+            ],
+          ),
         ));
   }
 }

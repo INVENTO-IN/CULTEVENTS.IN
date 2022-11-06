@@ -1,7 +1,39 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:path_provider/path_provider.dart';
+
+
+class FirebaseApi {
+  static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
+
+      Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
+
+
+  static Future<List<FirebaseFile>> listAll(String path) async {
+    final ref = FirebaseStorage.instance.ref(path);
+    final result = await ref.listAll();
+    final urls = await _getDownloadLinks(result.items);
+    //print(urls);
+
+    return urls
+        .asMap()
+        .map((index, url) {
+      final ref = result.items[index];
+      final file = FirebaseFile(ref: ref, url: url);
+
+      return MapEntry(index, file);
+
+    }).values
+        .toList();
+  }
+}
+
+class FirebaseFile {
+  final Reference ref;
+  final String url;
+
+  const FirebaseFile({ required this.ref, required this.url});
+}
 
 final List<String> imgList = [
   'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg/800px-Spaghetti_Bolognese_mit_Parmesan_oder_Grana_Padano.jpg',
@@ -18,19 +50,30 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int _current = 0;
-
+  // static Future<List<String>> _getDownloadLinks(List<Reference> refs) => Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
+  // static Future<List<FirebaseFile>> listAll() async {
+  //   final ref = FirebaseStorage.instance.ref('carousel/');
+  //   final result = await ref.listAll();
+  //   final urls = await _getDownloadLinks(result.items);
+  //   print(urls);
+  //   return urls
+  //       .asMap()
+  //       .map((index, url) {
+  //     final ref = result.items[index];
+  //     final file = FirebaseFile(ref: ref, url: url);
+  //     print(ref);
+  //     print(file);
+  //     return MapEntry(index, file);
+  //
+  //   }).values
+  //       .toList();
+  // }
+  void getImage() async{
+    final  ref = await FirebaseStorage.instance.ref('carousel/').listAll();
+    print(ref);
+  }
   final CarouselController _controller = CarouselController();
 
-  // Future<void> listPhotos() async {
-  //   firebase_storage.ListResult result = await firebase_storage.FirebaseStorage.instance.ref().child('carousel').listAll();
-  //   for(firebase_storage.Reference ref in result.items){
-  //     String url = await firebase_storage.FirebaseStorage.instance.ref(ref.fullPath).getDownloadURL();
-  //     print(url);
-  //   }
-  //
-  // }
-
-  // final ref = FirebaseStorage.instance.ref().child('carousel').getDownloadURL();
   //
   late Future<List<FirebaseFile>> futureFiles;
 
@@ -39,30 +82,6 @@ class _CarouselState extends State<Carousel> {
     super.initState();
     futureFiles = FirebaseApi.listAll('carousel/');
   }
-
-  //  Future<dynamic> loadImage() async {
-  //
-  //   var urlref =
-  //       FirebaseStorage.instance.ref().child("carousel").listAll();
-  //   var imageUrl = await urlref.listAll().then((value) {
-  //     print("result is $value");
-  //   });
-  //   return imageUrl;
-  //   // return await FirebaseStorage.instance
-  //   //     .ref()
-  //   //     .child("carousel")
-  //   //     .child(image)
-  //   //     .getDownloadURL();
-  // }
-
-  // Future<String> downloadUrl() async {
-  //   String downloadUrl = await FirebaseStorage.instance
-  //       .ref()
-  //       .child('carousel')
-  //       .child('14358')
-  //       .getDownloadURL();
-  //   return downloadUrl;
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,9 +99,64 @@ class _CarouselState extends State<Carousel> {
                   ),
             ))
         .toList();
+    //final List<Widget> image = ListImage.map((imageList) => )
 
     return Column(
       children: [
+        SizedBox(
+          height: 150,
+          width: MediaQuery.of(context).size.width,
+          child: CarouselSlider(
+            items: imageSliders,
+            carouselController: _controller,
+            options: CarouselOptions(
+                viewportFraction: 1,
+                aspectRatio: 16 / 9,
+                autoPlay: true,
+                enlargeCenterPage: true,
+                autoPlayAnimationDuration:
+                const Duration(milliseconds: 250),
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                }),
+          ),
+        ),
+    //Image.network('https://firebasestorage.googleapis.com/v0/b/cultevents-de04a.appspot.com/o/carousel%2F14358.jpg?alt=media&token=17a3d95b-cf34-4102-859e-6f6ac9138942'),
+
+    FutureBuilder<List<FirebaseFile>>(
+          future: futureFiles,
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              default:
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Some error occured"),
+                  );
+                } else {
+                  final files = snapshot.data!;
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: files.length,
+                        itemBuilder: (context, index) {
+                          final file = files[index];
+                          return buildFile(context, file);
+                        },
+                      )
+                    ],
+                  );
+                }
+            }
+          },
+        ),
         Row(
           children: [
             SizedBox(
@@ -127,90 +201,7 @@ class _CarouselState extends State<Carousel> {
             );
           }).toList(),
         ),
-        FutureBuilder<List<FirebaseFile>>(
-          future: futureFiles,
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              default:
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text("Some error occured"),
-                  );
-                } else {
-                  final files = snapshot.data!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: files.length,
-                      itemBuilder: (context, index) {
-                      final file = files[index];
-                      return buildFile(context, file);
-                      },
-                      )
-                    ],
-                  );
-                }
-            }
-          },
-        )
-        // Expanded(
-        //   //Image Loading code goes here
-        //   child: FutureBuilder(
-        //     future: _getImage(context, image),
-        //     builder: (context, snapshot) {
-        //       if (snapshot.connectionState == ConnectionState.done)
-        //         return Container(
-        //             height: MediaQuery.of(context).size.height / 1.25,
-        //           width: MediaQuery.of(context).size.width / 1.25,
-        //           child: snapshot.data,
-        //         );
-        //
-        //       if (snapshot.connectionState == ConnectionState.waiting)
-        //         return Container(
-        //             height: MediaQuery.of(context).size.height / 1.25,
-        //             width: MediaQuery.of(context).size.width / 1.25,
-        //             child: CircularProgressIndicator());
-        //
-        //       return Container();
-        //     },
-        //   ),
-        // ),
 
-        // FutureBuilder(
-        //   future:  _getImage(context, image),
-        //     builder: ( context, snapshot) {
-        //     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-        //       return Container(
-        //         width: 300,
-        //         height: 300,
-        //         child: snapshot.data,
-        //       );
-        //     }
-        //     return Container();
-        //     }
-        //     )
-        // ListView.builder(itemBuilder:(BuildContext context, int index) {
-        //   return ClipRRect(
-        //     child: SizedBox(
-        //       height: 200,
-        //       width: 200,
-        //       child:
-        //        NetworkImage(loadImage.toString()),
-        //
-        //     ),
-        //   );
-        // },
-        // itemCount: 5,
-        // )
-
-        // SizedBox(height: 100,width: 100,
-        //     child: Image.network(_imageUrl, fit: BoxFit.cover)),
       ],
     );
   }
@@ -223,45 +214,3 @@ class _CarouselState extends State<Carousel> {
       );
 }
 
-// Future<Widget> _getImage(BuildContext context,String image) async{
-//   Image m;
-//   await FireStorageService.loadFromStorage(context, image).then((downloadUrl) {
-//     m = Image.network(downloadUrl.toString(), fit:  BoxFit.scaleDown,);
-//   });
-//   return m;
-// }
-// class FireStorageService extends ChangeNotifier {
-//   FireStorageService();
-//   static Future<dynamic> loadFromStorage(BuildContext context, String image) async{
-//     return await firebase_storage.FirebaseStorage.instance.ref().child(image).getDownloadURL();
-//
-//   }
-// }
-class FirebaseApi {
-  static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
-      Future.wait(refs.map((ref) => ref.getDownloadURL()).toList());
-
-  static Future<List<FirebaseFile>> listAll(String path) async {
-    final ref = FirebaseStorage.instance.ref(path);
-    final result = await ref.listAll();
-    final urls = await _getDownloadLinks(result.items);
-
-    return urls
-        .asMap()
-        .map((index, url) {
-          final ref = result.items[index];
-          final file = FirebaseFile(ref: ref, url: url);
-
-          return MapEntry(index, file);
-        })
-        .values
-        .toList();
-  }
-}
-
-class FirebaseFile {
-  final Reference ref;
-  final String url;
-
-  const FirebaseFile({required this.ref, required this.url});
-}
