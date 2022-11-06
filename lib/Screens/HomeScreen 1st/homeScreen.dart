@@ -9,11 +9,18 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
         extendBody: true,
         appBar: AppBar(
-          title: Text("CultEvents"),
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Text(
+            "CultEvents",
+            style: TextStyle(color: Theme.of(context).colorScheme.primary),
+          ),
         ),
         body: Column(
-          children:const [
+          children: const [
             Carousel(),
+
+
           ],
         ));
   }

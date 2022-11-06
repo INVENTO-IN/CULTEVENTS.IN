@@ -39,6 +39,7 @@ dependencies:
   firebase_auth:
   cloud_firestore:
   dot_navigation_bar:
+  firebase_storage:
 
 
 

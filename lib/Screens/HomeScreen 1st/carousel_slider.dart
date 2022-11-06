@@ -1,5 +1,5 @@
-import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 
 final List<String> imgList = [
@@ -17,7 +17,44 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int _current = 0;
+
   final CarouselController _controller = CarouselController();
+  Future<void> listPhotos() async {
+
+  }
+
+  // final ref = FirebaseStorage.instance.ref().child('carousel').getDownloadURL();
+  //
+  // void initState() {
+  //   super.initState();
+  //   var ref = FirebaseStorage.instance.ref().child('carousel');
+  //   ref.getDownloadURL().then((loc) => setState(() => _imageUrl = loc));
+  //
+  // }
+
+  //  Future<dynamic> loadImage() async {
+  //
+  //   var urlref =
+  //       FirebaseStorage.instance.ref().child("carousel").listAll();
+  //   var imageUrl = await urlref.listAll().then((value) {
+  //     print("result is $value");
+  //   });
+  //   return imageUrl;
+  //   // return await FirebaseStorage.instance
+  //   //     .ref()
+  //   //     .child("carousel")
+  //   //     .child(image)
+  //   //     .getDownloadURL();
+  // }
+
+  // Future<String> downloadUrl() async {
+  //   String downloadUrl = await FirebaseStorage.instance
+  //       .ref()
+  //       .child('carousel')
+  //       .child('14358')
+  //       .getDownloadURL();
+  //   return downloadUrl;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +89,7 @@ class _CarouselState extends State<Carousel> {
                     autoPlay: true,
                     enlargeCenterPage: true,
                     autoPlayAnimationDuration:
-                        const Duration(milliseconds: 300),
+                        const Duration(milliseconds: 250),
                     onPageChanged: (index, reason) {
                       setState(() {
                         _current = index;
@@ -82,6 +119,58 @@ class _CarouselState extends State<Carousel> {
             );
           }).toList(),
         ),
+        // Expanded(
+        //   //Image Loading code goes here
+        //   child: FutureBuilder(
+        //     future: _getImage(context, image),
+        //     builder: (context, snapshot) {
+        //       if (snapshot.connectionState == ConnectionState.done)
+        //         return Container(
+        //             height: MediaQuery.of(context).size.height / 1.25,
+        //           width: MediaQuery.of(context).size.width / 1.25,
+        //           child: snapshot.data,
+        //         );
+        //
+        //       if (snapshot.connectionState == ConnectionState.waiting)
+        //         return Container(
+        //             height: MediaQuery.of(context).size.height / 1.25,
+        //             width: MediaQuery.of(context).size.width / 1.25,
+        //             child: CircularProgressIndicator());
+        //
+        //       return Container();
+        //     },
+        //   ),
+        // ),
+
+        // FutureBuilder(
+        //   future: downloadUrl(),
+        //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        //     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+        //       return Container(
+        //         width: 300,
+        //         height: 300,
+        //         child: Image.network(snapshot.data!),
+        //       );
+        //     }
+        //     return Container();
+        //     }
+        //     )
+        // ListView.builder(itemBuilder:(BuildContext context, int index) {
+        //   return ClipRRect(
+        //     child: SizedBox(
+        //       height: 200,
+        //       width: 200,
+        //       child:
+        //        NetworkImage(loadImage.toString()),
+        //
+        //     ),
+        //   );
+        // },
+        // itemCount: 5,
+        // )
+
+        // SizedBox(height: 100,width: 100,
+        //     child: Image.network(_imageUrl, fit: BoxFit.cover)),
       ],
     );
   }
