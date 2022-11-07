@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -49,6 +48,7 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> {
   int _current = 0;
+  int _index = 0;
   int _currentPage = 0;
   late Timer _timer;
   final bool isActive = false;
@@ -84,7 +84,6 @@ class _CarouselState extends State<Carousel> {
   //
   late Future<List<FirebaseFile>> futureFiles;
 
-
   Future<List<String>> getirebaseImage(String path) async {
     final ref = FirebaseStorage.instance.ref(path);
     final result = await ref.listAll();
@@ -95,8 +94,6 @@ class _CarouselState extends State<Carousel> {
     return urls;
   }
 
-
-
   late Future ImageList;
   late Future ImgList = ImageList;
 
@@ -104,53 +101,57 @@ class _CarouselState extends State<Carousel> {
   void initState() {
     super.initState();
     futureFiles = FirebaseApi.listAll('carousel/');
-     ImageList = getirebaseImage('carousel/');
+    ImageList = getirebaseImage('carousel/');
     _timer = Timer.periodic(const Duration(seconds: 4), (Timer timer) {
       if (_currentPage < 2) {
         _currentPage++;
       } else {
         _currentPage = 0;
-        
       }
 
       _pageController.animateToPage(
         _currentPage,
-        duration:const  Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         curve: Curves.easeIn,
       );
     });
   }
+
   @override
   void dispose() {
     super.dispose();
     _timer.cancel();
   }
+
   //final List<String> imgList = ImageList ;
 
   @override
   Widget build(BuildContext context) {
     //final List<Widget> Image = ImageList
-    final List<Widget> imageSliders =  imgList
-        .map((image) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClipRRect(
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(10.0),
-                  ),
-                  child: Image.network(image,
-                      fit: BoxFit.cover,
-                      width:
-                          1000.0) // Image.asset(image, fit: BoxFit.cover, width: 1000.0),
-                  ),
-            ))
-        .toList();
+    // final List<Widget> imageSliders = imgList
+    //     .map((image) => Padding(
+    //           padding: const EdgeInsets.all(8.0),
+    //           child: ClipRRect(
+    //               borderRadius: const BorderRadius.all(
+    //                 Radius.circular(10.0),
+    //               ),
+    //               child: Image.network(image,
+    //                   fit: BoxFit.cover,
+    //                   width:
+    //                       1000.0) // Image.asset(image, fit: BoxFit.cover, width: 1000.0),
+    //               ),
+    //         ))
+    //     .toList();
     //final List<Widget> image = ListImage.map((imageList) => )
 
     return Column(
       children: [
         // SizedBox(
         //   height: 150,
-        //   width: MediaQuery.of(context).size.width,
+        //   width: MediaQuery
+        //       .of(context)
+        //       .size
+        //       .width,
         //   child: CarouselSlider(
         //     items: imageSliders,
         //     carouselController: _controller,
@@ -162,14 +163,11 @@ class _CarouselState extends State<Carousel> {
         //         autoPlayAnimationDuration: const Duration(milliseconds: 250),
         //         onPageChanged: (index, reason) {
         //           setState(() {
-        //             _current = index;
+        //             _index = index;
         //           });
         //         }),
         //   ),
         // ),
-
-        //Image.network('https://firebasestorage.googleapis.com/v0/b/cultevents-de04a.appspot.com/o/carousel%2F14358.jpg?alt=media&token=17a3d95b-cf34-4102-859e-6f6ac9138942'),
-
         FutureBuilder<List<FirebaseFile>>(
           future: futureFiles,
           builder: (context, snapshot) {
@@ -185,32 +183,96 @@ class _CarouselState extends State<Carousel> {
                   );
                 } else {
                   final files = snapshot.data!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 200,
-                        child: PageView.builder(
-                          controller: _pageController,
-                          scrollDirection: Axis.horizontal,
-                          //shrinkWrap: true,
-                          //itemCount: files.length,
-                          itemBuilder: (context, index) {
-                            final file = files[index % files.length];
-                            return buildFile(context, file);
+                  return CarouselSlider.builder(
+                    carouselController: _controller,
+                    itemCount: files.length,
+                    itemBuilder: (BuildContext context, index, int) {
+                      final file = files[index];
+                      return buildFile(context, file);
+                    },
+                    options: CarouselOptions(
+                      viewportFraction: 1,
+                      aspectRatio: 16 / 9,
+                      autoPlay: true,
+                      enlargeCenterPage: true,
+                      autoPlayAnimationDuration:
+                          const Duration(milliseconds: 250),
+                      onPageChanged: (index, reason) {
+                        setState(
+                          () {
+                            _current = index;
                           },
-                        ),
-                      )
-                    ],
+                        );
+                      },
+                    ),
                   );
                 }
             }
           },
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: imgList.asMap().entries.map((entry) {
+            return GestureDetector(
+              onTap: () => _controller.animateToPage(entry.key),
+              child: Container(
+                width: 8.0,
+                height: 8.0,
+                margin:
+                const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: (Theme.of(context).brightness == Brightness.dark
+                        ? Colors.white
+                        : Colors.black)
+                        .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+              ),
+            );
+          }).toList(),
+        ),
 
-       const  SizedBox(
+        //Image.network('https://firebasestorage.googleapis.com/v0/b/cultevents-de04a.appspot.com/o/carousel%2F14358.jpg?alt=media&token=17a3d95b-cf34-4102-859e-6f6ac9138942'),
+
+        // FutureBuilder<List<FirebaseFile>>(
+        //   future: futureFiles,
+        //   builder: (context, snapshot) {
+        //     switch (snapshot.connectionState) {
+        //       case ConnectionState.waiting:
+        //         return const Center(
+        //           child: CircularProgressIndicator(),
+        //         );
+        //       default:
+        //         if (snapshot.hasError) {
+        //           return const Center(
+        //             child: Text("Some error occurred"),
+        //           );
+        //         } else {
+        //           final files = snapshot.data!;
+        //           return Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               SizedBox(
+        //                 height: 200,
+        //                 child: PageView.builder(
+        //                   controller: _pageController,
+        //                   scrollDirection: Axis.horizontal,
+        //                   //shrinkWrap: true,
+        //                   //itemCount: files.length,
+        //                   itemBuilder: (context, index) {
+        //                     final file = files[index % files.length];
+        //                     return buildFile(context, file);
+        //                   },
+        //                 ),
+        //               )
+        //             ],
+        //           );
+        //         }
+        //     }
+        //   },
+        // ),
+
+        const SizedBox(
           height: 10,
-
         ),
 
         // FutureBuilder<List<FirebaseFile>>(
@@ -257,26 +319,7 @@ class _CarouselState extends State<Carousel> {
         //     }
         //   },
         // ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: imgList.asMap().entries.map((entry) {
-        //     return GestureDetector(
-        //       onTap: () => _controller.animateToPage(entry.key),
-        //       child: Container(
-        //         width: 8.0,
-        //         height: 8.0,
-        //         margin:
-        //         const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-        //         decoration: BoxDecoration(
-        //             shape: BoxShape.circle,
-        //             color: (Theme.of(context).brightness == Brightness.dark
-        //                 ? Colors.white
-        //                 : Colors.black)
-        //                 .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-        //       ),
-        //     );
-        //   }).toList(),
-        // ),
+
       ],
     );
   }
@@ -295,19 +338,19 @@ class _CarouselState extends State<Carousel> {
           ),
         ),
       );
-  // Widget indicator(BuildContext context, FirebaseFile file) =>
-  //     AnimatedContainer(
-  //       duration: const Duration(milliseconds: 350),
-  //       margin: const EdgeInsets.symmetric(horizontal: 10),
-  //       child: Container(
-  //         width: isActive ? 22.0 : 8.0,
-  //         height: 8.0,
-  //         decoration: BoxDecoration(
-  //           color: isActive ? Colors.black : Colors.grey,
-  //           borderRadius: BorderRadius.circular(10)
-  //         ),
-  //       )
-  //     );
+// Widget indicator(BuildContext context, FirebaseFile file) =>
+//     AnimatedContainer(
+//       duration: const Duration(milliseconds: 350),
+//       margin: const EdgeInsets.symmetric(horizontal: 10),
+//       child: Container(
+//         width: isActive ? 22.0 : 8.0,
+//         height: 8.0,
+//         decoration: BoxDecoration(
+//           color: isActive ? Colors.black : Colors.grey,
+//           borderRadius: BorderRadius.circular(10)
+//         ),
+//       )
+//     );
 }
 // class Indicator extends StatelessWidget {
 //   final bool isActive;
@@ -326,3 +369,36 @@ class _CarouselState extends State<Carousel> {
 //   }
 // }
 
+// class CarouselImage {
+//   final carouselRef = FirebaseFirestore.instance
+//       .collection('carousel')
+//       .withConverter<CarouselModel>(
+//         fromFirestore: (snapshot, _) =>
+//             CarouselModel.fromJson(snapshot.data()!),
+//         toFirestore: (movie, _) => movie.toJson(),
+//       );
+//
+//   Future<List<CarouselModel>> getCarousel() async {
+//     var querySnapshot = await carouselRef.get();
+//     var carouselItemList = querySnapshot.docs.map((doc) => doc.data()).toList();
+//     return carouselItemList;
+//   }
+// }
+//
+// class CarouselModel {
+//   CarouselModel({required this.id, required this.image});
+//
+//   final String id;
+//   final String image;
+//
+//   CarouselModel.fromJson(Map<String, Object?> json)
+//       : this(id: json['title']! as String, image: json['image']! as String);
+//
+//   Map<String, Object?> toJson() {
+//     return {
+//       'title': id,
+//       'image': image,
+//     };
+//   }
+// }
+// //class CarouselController extends Controller
