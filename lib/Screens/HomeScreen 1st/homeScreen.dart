@@ -1,4 +1,5 @@
 import 'package:cult_events/Screens/HomeScreen%201st/carousel_slider.dart';
+import 'package:cult_events/Screens/HomeScreen%201st/catergories.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,15 +12,26 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Text(
+          title:const  Text(
             "CultEvents",
-            style:  Theme.of(context).textTheme.subtitle1 ,
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'Poppins',
+              fontSize: 18
+
+            ),
           ),
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: const [
-              Carousel(),
+            children:  [
+
+              Categories(),
+              const  SizedBox(
+                height: 10,
+              ),
+              const Carousel(),
+
 
 
             ],

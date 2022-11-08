@@ -40,7 +40,7 @@ class _BottomBarState extends State<BottomBar> {
         padding: const EdgeInsets.all(2.0),
         child: DotNavigationBar(
           borderRadius: 30,
-          enablePaddingAnimation: false,
+          enablePaddingAnimation: true,
           enableFloatingNavBar: true,
           backgroundColor: Colors.white,
 
