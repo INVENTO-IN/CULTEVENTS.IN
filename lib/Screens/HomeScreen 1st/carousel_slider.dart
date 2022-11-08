@@ -79,7 +79,7 @@ class _CarouselState extends State<Carousel> {
                 } else {
                   final files = snapshot.data!;
                   return SizedBox(
-                    height: 180,
+                    height: 160,
                     width: MediaQuery.of(context).size.width,
                     child: CarouselSlider.builder(
                       carouselController: _controller,
@@ -89,10 +89,11 @@ class _CarouselState extends State<Carousel> {
                         return buildFile(context, file);
                       },
                       options: CarouselOptions(
-                        viewportFraction: 1,
-                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.8,
+                        aspectRatio: 1.5,
                         autoPlay: true,
                         enlargeCenterPage: true,
+                        enlargeStrategy: CenterPageEnlargeStrategy.height,
                         autoPlayAnimationDuration:
                             const Duration(milliseconds: 550),
                         onPageChanged: (index, reason) {

@@ -23,6 +23,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         body: SingleChildScrollView(
+          physics:const  BouncingScrollPhysics(),
           child: Column(
             children:  [
 
@@ -31,6 +32,28 @@ class HomeScreen extends StatelessWidget {
                 height: 10,
               ),
               const Carousel(),
+              const  SizedBox(
+                height: 10,
+              ),
+              Categories(),
+              const  SizedBox(
+                height: 10,
+              ),
+              Categories(),
+
+              const  SizedBox(
+                height: 10,
+              ),
+              Categories(),
+
+              const  SizedBox(
+                height: 10,
+              ),
+              Categories(),
+              const  SizedBox(
+                height: 100,
+              ),
+
 
 
 

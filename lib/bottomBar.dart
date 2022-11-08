@@ -4,7 +4,7 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'Screens/HomeScreen 1st/homeScreen.dart';
-import 'Screens/ideas-3rd/ideas.dart';
+import 'Screens/ideas-2rd/ideas.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class _BottomBarState extends State<BottomBar> {
           borderRadius: 30,
           enablePaddingAnimation: true,
           enableFloatingNavBar: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white60,
 
           // type: BottomNavigationBarType.fixed,
           items: [
