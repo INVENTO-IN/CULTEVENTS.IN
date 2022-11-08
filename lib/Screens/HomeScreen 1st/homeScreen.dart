@@ -8,57 +8,28 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBody: true,
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title:const  Text(
-            "CultEvents",
-            style: TextStyle(
-              color: Colors.black,
-              fontFamily: 'Poppins',
-              fontSize: 18
-
-            ),
-          ),
+      extendBody: true,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          "CultEvents",
+          style: TextStyle(
+              color: Colors.black, fontFamily: 'Poppins', fontSize: 18),
         ),
-        body: SingleChildScrollView(
-          physics:const  BouncingScrollPhysics(),
-          child: Column(
-            children:  [
-
-              Categories(),
-              const  SizedBox(
-                height: 10,
-              ),
-              const Carousel(),
-              const  SizedBox(
-                height: 10,
-              ),
-              Categories(),
-              const  SizedBox(
-                height: 10,
-              ),
-              Categories(),
-
-              const  SizedBox(
-                height: 10,
-              ),
-              Categories(),
-
-              const  SizedBox(
-                height: 10,
-              ),
-              Categories(),
-              const  SizedBox(
-                height: 100,
-              ),
-
-
-
-
-            ],
-          ),
-        ));
+      ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          children: [
+            Categories(),
+            const SizedBox(
+              height: 10,
+            ),
+            const Carousel(),
+          ],
+        ),
+      ),
+    );
   }
 }

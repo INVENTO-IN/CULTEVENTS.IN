@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromRGBO(138, 80, 196, 10), //purple
+          primary: const Color.fromRGBO(235, 165, 54, 10), //purple
           secondary: Colors.white,
         ),
         buttonTheme: ButtonTheme.of(context).copyWith(
