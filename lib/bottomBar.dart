@@ -42,7 +42,7 @@ class _BottomBarState extends State<BottomBar> {
           borderRadius: 30,
           enablePaddingAnimation: true,
           enableFloatingNavBar: true,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white60,
 
           // type: BottomNavigationBarType.fixed,
           items: [

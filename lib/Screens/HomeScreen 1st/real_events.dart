@@ -34,33 +34,33 @@ class RealEvents extends StatelessWidget {
                 padding: const EdgeInsets.only(
                     left: 15, right: 10, bottom: 10, top: 0),
                 child: Stack(
+                  fit: StackFit.loose,
+                  clipBehavior: Clip.hardEdge,
                   children: [
                     Container(
+                      height: 380,
+                      width: 280,
                       decoration: BoxDecoration(
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(10)),
+                        borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(image),
                         ),
                       ),
-                      height: 380,
-                      width: 280,
                       child: Container(
                         //height: 100,
                         decoration: BoxDecoration(
-                            color: Colors.white,
-                            gradient: LinearGradient(
-                                begin: FractionalOffset.center,
-                                end: FractionalOffset.bottomCenter,
-                                colors: [
-                                  Colors.transparent.withOpacity(0.0),
-                                  Colors.black
-                                ],
-                                stops: const [
-                                  0.5,
-                                  1.0
-                                ])),
+                          color: Colors.white,
+                          gradient: LinearGradient(
+                            begin: FractionalOffset.center,
+                            end: FractionalOffset.bottomCenter,
+                            colors: [
+                              Colors.transparent.withOpacity(0.0),
+                              Colors.black
+                            ],
+                            stops: const [0.5, 1.0],
+                          ),
+                        ),
                       ),
                     ),
                     Column(
