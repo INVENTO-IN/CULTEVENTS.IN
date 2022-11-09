@@ -60,10 +60,11 @@ class MyApp extends StatelessWidget {
               ),
               subtitle2: const TextStyle(
                 fontFamily: 'Poppins',
-                fontWeight: FontWeight.w400,
-                fontSize: 13,
-                color: Colors.white,
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+                color: Colors.black,
               ),
+
             ),
       ),
       home: StreamBuilder(

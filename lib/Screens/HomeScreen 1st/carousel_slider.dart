@@ -83,6 +83,7 @@ class _CarouselState extends State<Carousel> {
                     width: MediaQuery.of(context).size.width,
                     child: CarouselSlider.builder(
                       carouselController: _controller,
+
                       itemCount: files.length,
                       itemBuilder: (BuildContext context, index, int) {
                         final file = files[index];
@@ -93,6 +94,7 @@ class _CarouselState extends State<Carousel> {
                         aspectRatio: 1.5,
                         autoPlay: true,
                         enlargeCenterPage: true,
+                        scrollPhysics:const BouncingScrollPhysics(),
                         enlargeStrategy: CenterPageEnlargeStrategy.height,
                         autoPlayAnimationDuration:
                             const Duration(milliseconds: 550),
