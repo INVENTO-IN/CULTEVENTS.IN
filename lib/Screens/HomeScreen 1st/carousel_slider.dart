@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
 //
 // class FirebaseApi {
 //   static Future<List<String>> _getDownloadLinks(List<Reference> refs) =>
@@ -47,21 +48,11 @@ class Carousel extends StatefulWidget {
 }
 
 class _CarouselState extends State<Carousel> {
-
-
   final CarouselController _controller = CarouselController();
   final Future<QuerySnapshot> carouselSlider =
       FirebaseFirestore.instance.collection('carousel').get();
 
   int _current = 0;
-
-
-
-  @override
-  void initState() {
-    super.initState();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +63,13 @@ class _CarouselState extends State<Carousel> {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const Center(child: Text("Loading"));
               default:
                 if (snapshot.hasError) {
                   return const Center(
                     child: Text("Some error occurred"),
                   );
                 } else {
-                  final files = snapshot.data!;
                   final images = snapshot.data!.docs;
                   return SizedBox(
                     height: 160,
@@ -89,7 +77,7 @@ class _CarouselState extends State<Carousel> {
                     child: CarouselSlider.builder(
                       carouselController: _controller,
                       itemCount: images.length,
-                      itemBuilder: (BuildContext context, index, int) {
+                      itemBuilder: (BuildContext context, index, _) {
                         //final file = files[index];
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 350),
@@ -105,7 +93,7 @@ class _CarouselState extends State<Carousel> {
                         );
                       },
                       options: CarouselOptions(
-                        viewportFraction: 0.8,
+                        viewportFraction: 0.9,
                         aspectRatio: 1.5,
                         autoPlay: true,
                         enlargeCenterPage: true,
@@ -151,17 +139,17 @@ class _CarouselState extends State<Carousel> {
     );
   }
 
-  // Widget buildFile(BuildContext context, FirebaseFile file) =>
-  //     AnimatedContainer(
-  //       duration: const Duration(milliseconds: 350),
-  //       margin: const EdgeInsets.symmetric(horizontal: 10),
-  //       child: ClipRRect(
-  //         borderRadius: BorderRadius.circular(10),
-  //         child: Image.network(
-  //           file.url,
-  //           width: 1000,
-  //           fit: BoxFit.cover,
-  //         ),
-  //       ),
-  //     );
+// Widget buildFile(BuildContext context, FirebaseFile file) =>
+//     AnimatedContainer(
+//       duration: const Duration(milliseconds: 350),
+//       margin: const EdgeInsets.symmetric(horizontal: 10),
+//       child: ClipRRect(
+//         borderRadius: BorderRadius.circular(10),
+//         child: Image.network(
+//           file.url,
+//           width: 1000,
+//           fit: BoxFit.cover,
+//         ),
+//       ),
+//     );
 }
