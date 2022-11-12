@@ -6,13 +6,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'Screens/HomeScreen 1st/homeScreen.dart';
-
 Future<void> main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -65,7 +64,6 @@ class MyApp extends StatelessWidget {
                 fontSize: 16,
                 color: Colors.black,
               ),
-
             ),
       ),
       home: StreamBuilder(
@@ -80,8 +78,8 @@ class MyApp extends StatelessWidget {
       //initialRoute: '/',
       routes: {
         LandingPage.routeName: (ctx) => const LandingPage(),
-        SignIn.routeName: (ctx) => SignIn(),
-        InviteCode.routeName: (ctx) => InviteCode(),
+        SignIn.routeName: (ctx) => const SignIn(),
+        InviteCode.routeName: (ctx) => const InviteCode(),
       },
     );
   }

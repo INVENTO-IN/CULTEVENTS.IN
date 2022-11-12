@@ -81,7 +81,7 @@ class _CarouselState extends State<Carousel> {
                       itemBuilder: (BuildContext context, index, _) {
                         //final file = files[index];
                         return AnimatedContainer(
-                          duration: const Duration(milliseconds: 350),
+                          duration: const Duration(milliseconds: 300),
                           margin: const EdgeInsets.symmetric(horizontal: 10),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
