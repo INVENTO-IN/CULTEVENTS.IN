@@ -1,8 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cult_events/Screens/profile-4th/contact_support.dart';
+import 'package:cult_events/Screens/profile-4th/information.dart';
+import 'package:cult_events/Screens/profile-4th/my_events.dart';
 import 'package:cult_events/Screens/profile-4th/profile_details.dart';
+import 'package:cult_events/Screens/profile-4th/review.dart';
 import 'package:cult_events/bottomBar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../landing_page/landing_page.dart';
 
@@ -143,8 +148,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (_) => ProfileDetails(userName: name, phoneNumber: phoneNo, email: email,)));
-
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => ProfileDetails(
+                                      userName: name,
+                                      phoneNumber: phoneNo,
+                                      email: email,
+                                    )));
                       },
                       child: const Text(
                         "Profile Details",
@@ -153,7 +164,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const Divider(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const MyEvents()));
+                      },
                       child: const Text(
                         "My Events",
                         style: textStyle,
@@ -161,7 +177,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const Divider(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        String email = 'dhanushsujatha123@gmail.com';
+                        String subject = 'Contact support';
+                        String body = 'This is a test email body';
+
+                        String emailUrl =
+                            "mailto:$email?subject=$subject&body=$body";
+                        if (await canLaunch(emailUrl)) {
+                          await launch(emailUrl);
+                        } else {
+                          throw "Error occurred sending an email";
+                        }
+
+
+                      },
                       child: const Text(
                         "Contact Support",
                         style: textStyle,
@@ -169,7 +199,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const Divider(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => const Review()));
+                      },
                       child: const Text(
                         "Write a review",
                         style: textStyle,
@@ -177,7 +210,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     const Divider(),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (_) => const Information()));
+                      },
                       child: const Text(
                         "Information",
                         style: textStyle,
