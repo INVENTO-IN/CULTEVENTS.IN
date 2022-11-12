@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cult_events/Screens/signin/InviteCode.dart';
 import 'package:cult_events/Screens/signin/signin.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class LandingPage extends StatefulWidget {
   static const routeName = '/landing-page';
@@ -31,7 +32,7 @@ class _LandingPageState extends State<LandingPage> {
               builder: (context, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.waiting:
-                    return Center(child: const Text("Loading"));
+                    return const Center(child: Text("Loading"));
                   default:
                     if (snapshot.hasError) {
                       return const Center(
