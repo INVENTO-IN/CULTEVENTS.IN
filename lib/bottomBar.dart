@@ -40,11 +40,16 @@ class _BottomBarState extends State<BottomBar> {
         padding: const EdgeInsets.all(2.0),
         child: DotNavigationBar(
           borderRadius: 30,
-          enablePaddingAnimation: true,
+          enablePaddingAnimation: false,
           enableFloatingNavBar: true,
           backgroundColor: Colors.white60,
-
-          // type: BottomNavigationBarType.fixed,
+          boxShadow: const  [
+            BoxShadow(
+                color: Colors.transparent,
+                spreadRadius: 0,
+                blurRadius: 0,
+                offset: Offset(0, 0)),
+          ],
           items: [
             DotNavigationBarItem(
               icon: const Icon(Icons.home),

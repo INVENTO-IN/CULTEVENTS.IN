@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 class Ideas extends StatelessWidget {
   Ideas({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class Ideas extends StatelessWidget {
       stream: users,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Text("Loading");
+          return shimmerIdeas(context);
         }
         //if(ConnectionState.none)
         if (snapshot.hasError) {
@@ -85,6 +86,63 @@ class Ideas extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+  shimmerIdeas(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+      height: 345,
+      width: MediaQuery.of(context).size.width,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.withOpacity(.5),
+        highlightColor: Colors.white,
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemCount:10,
+          itemBuilder: (ctx, index) {
+            return Padding(
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, bottom: 10, top: 0),
+              child: Card(
+                elevation: 2,
+                child: Column(
+                  //mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 280,
+                      width: 230,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        child: Container(
+                          color: Colors.white,
+                        )
+                      ),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 20,
+                          width: 120,
+                        child: Container(
+                          color: Colors.white,
+                        )
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

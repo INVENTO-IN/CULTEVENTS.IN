@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 //
 // class FirebaseApi {
@@ -63,7 +64,7 @@ class _CarouselState extends State<Carousel> {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
-                return const Center(child: Text("Loading"));
+                return buildFile(context);
               default:
                 if (snapshot.hasError) {
                   return const Center(
@@ -139,17 +140,47 @@ class _CarouselState extends State<Carousel> {
     );
   }
 
-// Widget buildFile(BuildContext context, FirebaseFile file) =>
-//     AnimatedContainer(
-//       duration: const Duration(milliseconds: 350),
-//       margin: const EdgeInsets.symmetric(horizontal: 10),
-//       child: ClipRRect(
-//         borderRadius: BorderRadius.circular(10),
-//         child: Image.network(
-//           file.url,
-//           width: 1000,
-//           fit: BoxFit.cover,
-//         ),
-//       ),
-//     );
+  buildFile(BuildContext context) => SizedBox(
+        height: 160,
+        width: MediaQuery.of(context).size.width,
+        child: CarouselSlider.builder(
+          carouselController: _controller,
+          itemCount: 4,
+          itemBuilder: (BuildContext context, index, _) {
+            //final file = files[index];
+            return Shimmer.fromColors(
+              baseColor: Colors.grey.withOpacity(.5),
+              highlightColor: Colors.white,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 350),
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      width: 1000,
+                      color: Colors.white,
+                    )
+
+                    ),
+              ),
+            );
+          },
+          options: CarouselOptions(
+            viewportFraction: 0.9,
+            aspectRatio: 1.5,
+            autoPlay: true,
+            enlargeCenterPage: true,
+            scrollPhysics: const BouncingScrollPhysics(),
+            enlargeStrategy: CenterPageEnlargeStrategy.height,
+            autoPlayAnimationDuration: const Duration(milliseconds: 550),
+            onPageChanged: (index, reason) {
+              setState(
+                () {
+                  _current = index;
+                },
+              );
+            },
+          ),
+        ),
+      );
 }
