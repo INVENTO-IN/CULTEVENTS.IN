@@ -18,11 +18,6 @@ class _SignInState extends State<SignIn> {
   final auth = FirebaseAuth.instance;
   final formKey = GlobalKey<FormState>();
 
-  // void _submitAuthForm(String phonenumber,
-  //     String username,
-  //     String email,){
-  //
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: 'Poppins',
+        primaryColor: const Color.fromRGBO(235, 165, 54, 10),
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: const Color.fromRGBO(235, 165, 54, 10), //purple
           secondary: Colors.white,

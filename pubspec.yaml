@@ -41,7 +41,8 @@ dependencies:
   dot_navigation_bar:
   firebase_storage:
   path_provider:
-  image_picker:
+  image_picker: ^0.8.6
+
 
 
 

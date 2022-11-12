@@ -58,7 +58,12 @@ class LandingPage extends StatelessWidget {
                     child: Text(
                       "Sign In/Sign Up",
                       textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.subtitle1,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 16,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w500
+                      ),
                     ),
                   ),
                 ),
@@ -72,9 +77,14 @@ class LandingPage extends StatelessWidget {
                           Navigator.pushNamed(context, InviteCode.routeName);
 
                         },
-                        child: Text(
+                        child:const  Text(
                           "Have an Invite Code?",
-                          style: Theme.of(context).textTheme.subtitle2,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            fontFamily: 'Poppins'
+                          )
                         ),
                       ),
                     ],

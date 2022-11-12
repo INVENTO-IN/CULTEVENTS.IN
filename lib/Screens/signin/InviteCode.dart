@@ -144,7 +144,7 @@ class _InviteCodeState extends State<InviteCode> {
                       content: Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: const Color.fromRGBO(138, 80, 196, 60),
+                          color: const Color.fromRGBO(235, 165, 54, 10),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Row(

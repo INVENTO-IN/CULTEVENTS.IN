@@ -77,7 +77,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderSide: const BorderSide(
-                          color: Color.fromRGBO(95, 74, 139, 1), width: 2),
+                          color: Color.fromRGBO(235, 165, 54, 10),width: 2),
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
@@ -147,7 +147,7 @@ class _OtpScreenState extends State<OtpScreen> {
         content: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(138, 80, 196, 60),
+            color: const Color.fromRGBO(235, 165, 54, 10),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -173,7 +173,7 @@ class _OtpScreenState extends State<OtpScreen> {
           content: Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: const Color.fromRGBO(138, 80, 196, 60),
+              color:const Color.fromRGBO(235, 165, 54, 10),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -202,7 +202,7 @@ class _OtpScreenState extends State<OtpScreen> {
         content: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(138, 80, 196, 60),
+            color: const Color.fromRGBO(235, 165, 54, 10),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -303,7 +303,7 @@ class _SignupOtpState extends State<SignupOtp> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
-                        color: Color.fromRGBO(95, 74, 139, 1), width: 2),
+                        color:  Color.fromRGBO(235, 165, 54, 10),width: 2),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -373,6 +373,7 @@ class _SignupOtpState extends State<SignupOtp> {
           'userName': userName,
           'email': email,
           'time': DateTime.now(),
+          'image': "",
         });
 
 
@@ -392,7 +393,7 @@ class _SignupOtpState extends State<SignupOtp> {
         content: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(138, 80, 196, 60),
+            color:const Color.fromRGBO(235, 165, 54, 10),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
@@ -420,7 +421,7 @@ class _SignupOtpState extends State<SignupOtp> {
         content: Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: const Color.fromRGBO(138, 80, 196, 60),
+            color:const Color.fromRGBO(235, 165, 54, 10),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(
