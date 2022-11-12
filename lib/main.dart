@@ -76,12 +76,12 @@ class MyApp extends StatelessWidget {
             return const BottomBar();
           }
           FlutterNativeSplash.remove();
-          return const LandingPage();
+          return  LandingPage();
         },
       ),
       //initialRoute: '/',
       routes: {
-        LandingPage.routeName: (ctx) => const LandingPage(),
+        LandingPage.routeName: (ctx) =>  LandingPage(),
         SignIn.routeName: (ctx) => const SignIn(),
         InviteCode.routeName: (ctx) => const InviteCode(),
       },

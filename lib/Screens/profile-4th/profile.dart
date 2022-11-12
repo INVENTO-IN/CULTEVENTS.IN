@@ -244,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           await FirebaseAuth.instance.signOut();
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const LandingPage(),
+                              builder: (context) =>  LandingPage(),
                             ),
                           );
                         },

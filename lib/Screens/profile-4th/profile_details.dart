@@ -152,7 +152,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (_) => const LandingPage(),
+                      builder: (_) =>  LandingPage(),
                     ),
                   );
                   print('Signed out');
