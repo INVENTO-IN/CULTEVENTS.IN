@@ -1,4 +1,5 @@
 import 'package:cult_events/bottomBar.dart';
+import 'package:cult_events/service/email_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -319,6 +320,7 @@ class _SignupOtpState extends State<SignupOtp> {
                   padding: const EdgeInsets.fromLTRB(20, 15, 20, 15),
                   minWidth: MediaQuery.of(context).size.width,
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     setState(() {
                       showLoading = true;
                     });
@@ -375,6 +377,7 @@ class _SignupOtpState extends State<SignupOtp> {
           'time': DateTime.now(),
           'image': "",
         });
+        sendEmail(name: userName, email: email);
 
 
 
@@ -382,7 +385,7 @@ class _SignupOtpState extends State<SignupOtp> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) =>  BottomBar(),
+            builder: (context) =>   BottomBar(),
           ),
         );
       });

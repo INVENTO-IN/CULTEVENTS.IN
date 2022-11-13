@@ -275,7 +275,7 @@ class _SignInState extends State<SignIn> {
                         color: Colors.white,
                       )
                     : const Text(
-                        "Get otp",
+                        "Continue",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Colors.white,

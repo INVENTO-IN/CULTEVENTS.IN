@@ -296,8 +296,8 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                 );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                // ScaffoldMessenger.of(context)
+                                //     .showSnackBar(snackBar);
                                 setState(() {
                                   showLoading = false;
                                 });

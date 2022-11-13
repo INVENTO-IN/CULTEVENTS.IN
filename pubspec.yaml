@@ -47,6 +47,7 @@ dependencies:
   flutter_native_splash:
   connectivity_plus:
   provider:
+  http:
 
 
 

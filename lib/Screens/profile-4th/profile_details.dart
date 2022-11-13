@@ -78,9 +78,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
             size: 45,
           ),
           onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (ctx) => const ProfileScreen()));
-          },
+            Navigator.of(context).pop();
+          }
         ),
       ),
       body: Padding(
