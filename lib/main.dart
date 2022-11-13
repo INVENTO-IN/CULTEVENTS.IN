@@ -83,9 +83,7 @@ class MyApp extends StatelessWidget {
           builder: (ctx, userSnapshot) {
             if (userSnapshot.hasData) {
               FlutterNativeSplash.remove();
-              return const Offline(
-                child: BottomBar(),
-              );
+              return const Offline(child:  BottomBar());
             }
             FlutterNativeSplash.remove();
             return LandingPage();
