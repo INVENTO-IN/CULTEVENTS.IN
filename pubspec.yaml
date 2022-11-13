@@ -45,6 +45,8 @@ dependencies:
   url_launcher: ^6.1.6
   shimmer: ^2.0.0
   flutter_native_splash:
+  connectivity_plus:
+  provider:
 
 
 
