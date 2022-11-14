@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cult_events/Screens/HomeScreen%201st/offfline_screen.dart';
 import 'package:cult_events/Screens/landing_page/landing_page.dart';
 import 'package:cult_events/Screens/signin/InviteCode.dart';
@@ -22,6 +24,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   const MyApp({Key? key}) : super(key: key);
+
 
   // This widget is the root of your application.
 
@@ -83,7 +86,7 @@ class MyApp extends StatelessWidget {
           builder: (ctx, userSnapshot) {
             if (userSnapshot.hasData) {
               FlutterNativeSplash.remove();
-              return const Offline(child:  BottomBar());
+              return const Offline(child: BottomBar());
             }
             FlutterNativeSplash.remove();
             return LandingPage();

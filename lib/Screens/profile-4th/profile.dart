@@ -157,104 +157,120 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 const Divider(),
-                Container(
+                SizedBox(
                   width: MediaQuery.of(context).size.width,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => ProfileDetails(
-                                        userName: name,
-                                        phoneNumber: phoneNo,
-                                        email: email,
-                                      )));
-                        },
-                        child: const Text(
-                          "Profile Details",
-                          style: textStyle,
+                                builder: (_) => ProfileDetails(
+                                  userName: name,
+                                  phoneNumber: phoneNo,
+                                  email: email,
+                                ),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Profile Details",
+                            style: textStyle,
+                          ),
                         ),
                       ),
                       const Divider(),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (_) => const MyEvents()));
-                        },
-                        child: const Text(
-                          "My Events",
-                          style: textStyle,
+                                builder: (_) => const MyEvents(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "My Events",
+                            style: textStyle,
+                          ),
                         ),
                       ),
                       const Divider(),
-                      TextButton(
-                        onPressed: () async {
-                          String email = 'dhanushsujatha123@gmail.com';
-                          String subject = 'Contact support';
-                          String body = 'User Id: $uid';
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () async {
+                            String email = 'happysolehappy@gmail.com';
+                            String subject = 'Contact support';
+                            String body = 'User Id: $uid';
 
-                          String emailUrl =
-                              "mailto:$email?subject=$subject&body=$body";
-                          if (await canLaunch(emailUrl)) {
-                            await launch(emailUrl);
-                          } else {
-                            throw "Error occurred sending an email";
-                          }
-                        },
-                        child: const Text(
-                          "Contact Support",
-                          style: textStyle,
+                            String emailUrl =
+                                "mailto:$email?subject=$subject&body=$body";
+                            if (await canLaunch(emailUrl)) {
+                              await launch(emailUrl);
+                            } else {
+                              throw "Error occurred sending an email";
+                            }
+                          },
+                          child: const Text(
+                            "Contact Support",
+                            style: textStyle,
+                          ),
                         ),
                       ),
                       const Divider(),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const Review()));
+                          },
+                          child: const Text(
+                            "Write a review",
+                            style: textStyle,
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const Information()));
+                          },
+                          child: const Text(
+                            "Information",
+                            style: textStyle,
+                          ),
+                        ),
+                      ),
+                      const Divider(),
+                      ListTile(
+                        title: GestureDetector(
+                          onTap: () async {
+                            await FirebaseAuth.instance.signOut();
+                            Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (_) => const Review()));
-                        },
-                        child: const Text(
-                          "Write a review",
-                          style: textStyle,
-                        ),
-                      ),
-                      const Divider(),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (_) => const Information()));
-                        },
-                        child: const Text(
-                          "Information",
-                          style: textStyle,
-                        ),
-                      ),
-                      const Divider(),
-                      TextButton(
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut();
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>  LandingPage(),
+                                builder: (context) => LandingPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            "Logout",
+                            style: TextStyle(
+                              color: Colors.redAccent,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
                             ),
-                          );
-                        },
-                        child: const Text(
-                          "Logout",
-                          style: TextStyle(
-                            color: Colors.redAccent,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
                           ),
                         ),
                       ),

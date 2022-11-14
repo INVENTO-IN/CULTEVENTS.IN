@@ -5,6 +5,7 @@ import 'package:cult_events/Screens/HomeScreen%201st/near_u.dart';
 import 'package:cult_events/Screens/HomeScreen%201st/real_events.dart';
 import 'package:flutter/material.dart';
 
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -21,75 +22,74 @@ class HomeScreen extends StatelessWidget {
               color: Colors.black, fontFamily: 'Poppins', fontSize: 18),
         ),
       ),
-
       body: SingleChildScrollView(
-
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Categories(),
-            const SizedBox(
-              height: 10,
-            ),
-            const Carousel(),
-            const SizedBox(
-              height: 10,
-            ),
-            const Padding(
-              padding:  EdgeInsets.all(15.0),
-              child: Text(
-                "Near you",
-                textAlign: TextAlign.left,
-                style:  TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600),
+                //mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Categories(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Carousel(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(15.0),
+                    child: Text(
+                      "Near you",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  NearYou(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        left: 15, right: 15, top: 5, bottom: 15),
+                    child: Text(
+                      "Ideas for you",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  Ideas(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const Divider(),
+                  const Padding(
+                    padding: EdgeInsets.only(
+                        left: 15, right: 15, top: 5, bottom: 15),
+                    child: Text(
+                      "Real events we love",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Poppins',
+                          color: Colors.black,
+                          fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  RealEvents(),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                ],
               ),
-            ),
-            NearYou(),
-            const SizedBox(
-              height: 10,
-            ),
-           const Divider(),
-            const Padding(
-              padding:  EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 15),
-              child: Text(
-                "Ideas for you",
-                textAlign: TextAlign.left,
-                style:  TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            Ideas(),
-            const SizedBox(
-              height: 10,
-            ),
-            const Divider(),
-            const Padding(
-              padding:  EdgeInsets.only(left: 15,right: 15,top: 5,bottom: 15),
-              child: Text(
-                "Real events we love",
-                textAlign: TextAlign.left,
-                style:  TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'Poppins',
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600),
-              ),
-            ),
-            RealEvents(),
-            const SizedBox(
-              height: 100,
-            ),
-
-          ],
-        ),
       ),
     );
   }
