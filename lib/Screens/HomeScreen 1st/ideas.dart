@@ -49,6 +49,9 @@ class Ideas extends StatelessWidget {
                           ),
                           child: Image.network(
                             data[index]['image'],
+                            errorBuilder: (ctx, object, stackTrace) {
+                              return shimmerError(context);
+                            },
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -88,6 +91,7 @@ class Ideas extends StatelessWidget {
       },
     );
   }
+
   shimmerIdeas(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
@@ -100,7 +104,7 @@ class Ideas extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
-          itemCount:10,
+          itemCount: 10,
           itemBuilder: (ctx, index) {
             return Padding(
               padding: const EdgeInsets.only(
@@ -115,32 +119,62 @@ class Ideas extends StatelessWidget {
                       height: 280,
                       width: 230,
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
-                        ),
-                        child: Container(
-                          color: Colors.white,
-                        )
-                      ),
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                          child: Container(
+                            color: Colors.white,
+                          )),
                     ),
-
                     Padding(
                       padding: const EdgeInsets.all(10.0),
                       child: Container(
-                        alignment: Alignment.center,
-                        height: 20,
+                          alignment: Alignment.center,
+                          height: 20,
                           width: 120,
-                        child: Container(
-                          color: Colors.white,
-                        )
-                      ),
+                          child: Container(
+                            color: Colors.white,
+                          )),
                     ),
                   ],
                 ),
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  shimmerError(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+      height: 345,
+      width: MediaQuery.of(context).size.width,
+      child: Shimmer.fromColors(
+        baseColor: Colors.grey.withOpacity(.5),
+        highlightColor: Colors.white,
+        child: Card(
+          elevation: 2,
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 270,
+                width: 220,
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                    child: Container(
+                      color: Colors.white,
+                    )),
+              ),
+            ],
+          ),
         ),
       ),
     );

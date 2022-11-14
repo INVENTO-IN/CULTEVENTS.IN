@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
 
       body: SingleChildScrollView(
 
-        physics: const BouncingScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           //mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,

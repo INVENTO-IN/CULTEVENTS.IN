@@ -45,7 +45,9 @@ class RealEvents extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(image),
+                          image: NetworkImage(image,
+
+                          ),
                         ),
                       ),
                       child: Container(

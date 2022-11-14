@@ -44,6 +44,9 @@ class NearYou extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         child: Image.network(
                           data[index]['image'],
+                          errorBuilder: (ctx, object, stackTrace) {
+                            return shimmerError(context);
+                          },
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -97,49 +100,87 @@ class NearYou extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (ctx, index) {
           return Padding(
-              padding: const  EdgeInsets.only(
-                  left: 10, right: 10, bottom: 0, top: 0),
-          child: Shimmer.fromColors( baseColor: Colors.grey.withOpacity(.5),
-            highlightColor: Colors.white,
-          child:  Column(
-            //mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 150,
-                width: 200,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child:Container(
-                    color: Colors.white,
-                  )
-                ),
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 0),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.withOpacity(.5),
+              highlightColor: Colors.white,
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    width: 200,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Container(
+                          color: Colors.white,
+                        )),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  Container(
+                      width: 100,
+                      height: 20,
+                      alignment: Alignment.centerLeft,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                      alignment: Alignment.centerLeft,
+                      width: 80,
+                      height: 15,
+                      child: Container(
+                        color: Colors.white,
+                      )),
+                ],
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              Container(
-                width: 100,
-                height: 20,
-                alignment: Alignment.centerLeft,
-                child: Container(
-                color: Colors.white,
+            ),
+          );
+        },
+      ),
+    );
+  }
 
-                )
+  shimmerError(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
+      height: 220,
+      width: MediaQuery.of(context).size.width,
+      child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemCount: 1,
+        itemBuilder: (ctx, index) {
+          return Padding(
+            padding:
+                const EdgeInsets.only(left: 10, right: 10, bottom: 0, top: 0),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.withOpacity(.5),
+              highlightColor: Colors.white,
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    width: 180,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Container(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                  width: 80,
-                  height: 15,
-                child: Container(
-                  color: Colors.white,
-                )
-              ),
-            ],
-          ),),
+            ),
           );
         },
       ),

@@ -88,6 +88,9 @@ class _CarouselState extends State<Carousel> {
                             child: Image.network(
                               images[index]['image'],
                               width: 1000,
+                              errorBuilder: (ctx, object, stackTrace) {
+                                return errorHandler(context);
+                              },
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -159,9 +162,7 @@ class _CarouselState extends State<Carousel> {
                     child: Container(
                       width: 1000,
                       color: Colors.white,
-                    )
-
-                    ),
+                    )),
               ),
             );
           },
@@ -181,6 +182,50 @@ class _CarouselState extends State<Carousel> {
               );
             },
           ),
+        ),
+      );
+
+  errorHandler(BuildContext context) => SizedBox(
+        height: 160,
+        width: MediaQuery.of(context).size.width,
+        child: PageView.builder(
+          itemCount: 1,
+          itemBuilder: (BuildContext context, int index) {
+            return Shimmer.fromColors(
+              baseColor: Colors.grey.withOpacity(.5),
+              highlightColor: Colors.white,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 350),
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 1000,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            );
+          },
+          // itemBuilder: (BuildContext context, index, _) {
+          //   //final file = files[index];
+          //   return Shimmer.fromColors(
+          //     baseColor: Colors.grey.withOpacity(.5),
+          //     highlightColor: Colors.white,
+          //     child: AnimatedContainer(
+          //       duration: const Duration(milliseconds: 350),
+          //       margin: const EdgeInsets.symmetric(horizontal: 10),
+          //       child: ClipRRect(
+          //           borderRadius: BorderRadius.circular(10),
+          //           child: Container(
+          //             width: 1000,
+          //             color: Colors.white,
+          //           )
+          //
+          //       ),
+          //     ),
+          //   );
+          // },
         ),
       );
 }
