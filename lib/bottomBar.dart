@@ -1,7 +1,5 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cult_events/Screens/events-3rd/events.dart';
 import 'package:cult_events/Screens/profile-4th/profile.dart';
-import 'package:cult_events/service/network_service.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -42,6 +40,7 @@ class _BottomBarState extends State<BottomBar> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(2.0),
         child: DotNavigationBar(
+
           borderRadius: 30,
           enablePaddingAnimation: false,
           enableFloatingNavBar: true,

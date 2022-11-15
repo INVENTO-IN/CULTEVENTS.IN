@@ -65,6 +65,8 @@ class _CarouselState extends State<Carousel> {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return buildFile(context);
+
+
               default:
                 if (snapshot.hasError) {
                   return const Center(

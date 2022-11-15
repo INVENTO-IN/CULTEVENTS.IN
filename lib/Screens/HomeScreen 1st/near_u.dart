@@ -15,9 +15,8 @@ class NearYou extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return shimmerNearU(context);
         }
-        //if(ConnectionState.none)
         if (snapshot.hasError) {
-          return const Text('Something went wrong');
+          return const Center(child: Text("Something went wrong"));
         }
         final data = snapshot.data!.docs;
         return Container(
