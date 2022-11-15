@@ -17,7 +17,7 @@ class ProfileScreen extends StatefulWidget {
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _ProfileScreenState extends State<ProfileScreen> with AutomaticKeepAliveClientMixin {
   String name = "";
   String email = "";
   String phoneNo = "";
@@ -62,6 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     const textStyle = TextStyle(
         color: Colors.black87,
         fontFamily: 'Poppins',
@@ -286,4 +287,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       return const Scaffold();
     }
   }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 }

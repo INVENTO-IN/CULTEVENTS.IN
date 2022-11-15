@@ -16,17 +16,23 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[
+  static const List<Widget> _widgetOptions = [
     HomeScreen(),
     IdeasScreen(),
     EventsScreen(),
     ProfileScreen(),
   ];
-
+  late PageController _pageController;
+  @override
+  void initState() {
+    _pageController = PageController(initialPage: _selectedIndex, keepPage: true);
+    super.initState();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(index);
     });
   }
 
@@ -35,7 +41,7 @@ class _BottomBarState extends State<BottomBar> {
     return Scaffold(
       extendBody: true,
       body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+        child: PageView(controller: _pageController,children: _widgetOptions,),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(2.0),

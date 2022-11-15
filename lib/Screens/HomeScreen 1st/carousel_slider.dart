@@ -48,15 +48,17 @@ class Carousel extends StatefulWidget {
   State<Carousel> createState() => _CarouselState();
 }
 
-class _CarouselState extends State<Carousel> {
+class _CarouselState extends State<Carousel> with AutomaticKeepAliveClientMixin{
   final CarouselController _controller = CarouselController();
   final Future<QuerySnapshot> carouselSlider =
       FirebaseFirestore.instance.collection('carousel').get();
 
   int _current = 0;
 
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         FutureBuilder<QuerySnapshot>(
@@ -230,4 +232,10 @@ class _CarouselState extends State<Carousel> {
           // },
         ),
       );
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+
 }
