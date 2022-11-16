@@ -1,32 +1,33 @@
+import 'package:cult_events/Screens/HomeScreen%201st/categories_inner.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Categories extends StatelessWidget {
-   Categories({Key? key}) : super(key: key);
+  Categories({Key? key}) : super(key: key);
 
-  final Future<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('categories').get();
+  final Stream<QuerySnapshot> users =
+      FirebaseFirestore.instance.collection('categories').snapshots();
   bool isLoaded = false;
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<QuerySnapshot>(
-      future: users,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.waiting:
-            return shimmerCategories(context);
-          case ConnectionState.none:
-            return shimmerCategories(context);
+    return StreamBuilder<QuerySnapshot>(
+        stream: users,
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return shimmerCategories(context);
+            case ConnectionState.none:
+              return shimmerCategories(context);
 
-          default:
-            if (snapshot.hasError) {
-              return const Center(
-                child: Text("Some error occurred"),
-              );
-            } else {
-              final data = snapshot.requireData;
+            default:
+              if (snapshot.hasError) {
+                return const Center(
+                  child: Text("Some error occurred"),
+                );
+              } else {
+                final data = snapshot.data!.docs;
 
                 return Container(
                   padding: const EdgeInsets.all(10),
@@ -38,14 +39,25 @@ class Categories extends StatelessWidget {
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: data.docs.length,
+                    itemCount: data.length,
                     itemBuilder: (context, index) {
+                      final id = FirebaseFirestore.instance
+                          .collection('categories')
+                          .doc(snapshot.data!.docs[index].id).id;
                       return Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: SizedBox(
                           child: InkWell(
                             onTap: () {
-                              print(data.docs[index]['title']);
+                              //print()
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) =>  InnerCategories(uid: id,title: data[index]['title'],
+
+                                  ),
+                                ),
+                              );
+                              print(id);
                             },
                             child: Column(
                               //crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,7 +69,7 @@ class Categories extends StatelessWidget {
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),
                                     child: Image.network(
-                                      data.docs[index]['image'],
+                                      data[index]['image'],
                                       errorBuilder:
                                           (context, exception, stackTrace) {
                                         return shimmerError(context);
@@ -70,7 +82,7 @@ class Categories extends StatelessWidget {
                                   alignment: Alignment.center,
                                   width: 90,
                                   child: Text(
-                                    data.docs[index]['title'],
+                                    data[index]['title'],
                                     style:
                                         Theme.of(context).textTheme.subtitle1,
                                     maxLines: 2,
@@ -87,11 +99,8 @@ class Categories extends StatelessWidget {
                   ),
                 );
               }
-              return const Text("Something went wrong");
-            }
-        }
-
-    );
+          }
+        });
   }
 
   shimmerCategories(BuildContext context) {

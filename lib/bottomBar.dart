@@ -1,7 +1,9 @@
 import 'package:cult_events/Screens/events-3rd/events.dart';
 import 'package:cult_events/Screens/profile-4th/profile.dart';
+import 'package:cult_events/service/network_service.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'Screens/HomeScreen 1st/homeScreen.dart';
 import 'Screens/ideas-2rd/ideas.dart';
@@ -16,6 +18,7 @@ class BottomBar extends StatefulWidget {
 class _BottomBarState extends State<BottomBar> {
   int _selectedIndex = 0;
 
+
   static const List<Widget> _widgetOptions = [
     HomeScreen(),
     IdeasScreen(),
@@ -27,6 +30,12 @@ class _BottomBarState extends State<BottomBar> {
   void initState() {
     _pageController = PageController(initialPage: _selectedIndex, keepPage: true);
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    NetworkServices();
   }
 
   void _onItemTapped(int index) {
