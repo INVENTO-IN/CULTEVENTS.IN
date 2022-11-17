@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 class NearYou extends StatelessWidget {
   NearYou({Key? key}) : super(key: key);
   final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('categories').snapshots();
+      FirebaseFirestore.instance.collection('nearYou').snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +67,7 @@ class NearYou extends StatelessWidget {
                     Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        data[index]['title'],
+                        data[index]['location'],
                         textAlign: TextAlign.start,
                         style: const TextStyle(
                             fontSize: 12,

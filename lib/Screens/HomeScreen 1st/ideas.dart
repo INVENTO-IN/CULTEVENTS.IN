@@ -5,7 +5,7 @@ import 'package:shimmer/shimmer.dart';
 class Ideas extends StatelessWidget {
   Ideas({Key? key}) : super(key: key);
   final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('categories').snapshots();
+      FirebaseFirestore.instance.collection('ideasForYou').snapshots();
 
   @override
   Widget build(BuildContext context) {

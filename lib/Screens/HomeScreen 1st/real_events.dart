@@ -6,7 +6,7 @@ class RealEvents extends StatelessWidget {
   RealEvents({Key? key}) : super(key: key);
 
   final Stream<QuerySnapshot> users =
-      FirebaseFirestore.instance.collection('categories').snapshots();
+      FirebaseFirestore.instance.collection('RealEvents').snapshots();
 
   @override
   Widget build(BuildContext context) {
