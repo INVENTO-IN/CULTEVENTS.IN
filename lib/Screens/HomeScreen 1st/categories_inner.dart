@@ -119,7 +119,8 @@ class InnerCategories extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "₹" + data[index]['price'],
+                          '₹${data[index]['price']}',
+                          //"₹" + data[index]['price'],
                           textAlign: TextAlign.start,
                           style: Theme.of(context).textTheme.subtitle2,
                           //style:
