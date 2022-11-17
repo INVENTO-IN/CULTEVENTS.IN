@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 
@@ -17,13 +16,12 @@ class InnerCategories extends StatelessWidget {
         .doc(uid)
         .collection(title)
         .snapshots();
-     TextStyle textStyle =   const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w500,
-      fontSize: 18,
-      fontFamily: 'Poppins'
-    );
-    print(uid);
+    TextStyle textStyle = const TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        fontSize: 18,
+        fontFamily: 'Poppins');
+    //print(uid);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -99,7 +97,6 @@ class InnerCategories extends StatelessWidget {
                           style: textStyle,
                         ),
                       ),
-
                       const SizedBox(
                         height: 5,
                       ),
