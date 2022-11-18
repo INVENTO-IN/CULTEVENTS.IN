@@ -50,8 +50,8 @@ class Carousel extends StatefulWidget {
 
 class _CarouselState extends State<Carousel> with AutomaticKeepAliveClientMixin{
   final CarouselController _controller = CarouselController();
-  final Future<QuerySnapshot> carouselSlider =
-      FirebaseFirestore.instance.collection('carousel').get();
+  final Stream<QuerySnapshot> carouselSlider =
+      FirebaseFirestore.instance.collection('carousel').snapshots();
 
   int _current = 0;
 
@@ -61,9 +61,9 @@ class _CarouselState extends State<Carousel> with AutomaticKeepAliveClientMixin{
     super.build(context);
     return Column(
       children: [
-        FutureBuilder<QuerySnapshot>(
-          future: carouselSlider,
-          builder: (context, snapshot) {
+        StreamBuilder<QuerySnapshot>(
+          stream: carouselSlider,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.waiting:
                 return buildFile(context);

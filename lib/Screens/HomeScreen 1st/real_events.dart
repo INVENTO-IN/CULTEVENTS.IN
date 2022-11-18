@@ -39,48 +39,59 @@ class RealEvents extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   children: [
                     Container(
+
                       height: 380,
                       width: 280,
                       decoration: BoxDecoration(
+                        //color: Colors.black,
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
                           fit: BoxFit.cover,
+                          //colorFilter:const  ColorFilter.mode(Colors.black12, BlendMode.color),
                           image: NetworkImage(image,
 
                           ),
                         ),
                       ),
-                      child: Container(
-                        //height: 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          gradient: LinearGradient(
-                            begin: FractionalOffset.center,
-                            end: FractionalOffset.bottomCenter,
-                            colors: [
-                              Colors.transparent.withOpacity(0.0),
-                              Colors.black
-                            ],
-                            stops: const [0.5, 1.0],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Column(
+                    //   child: Container(
+                    //     //height: 100,
+                    //     decoration: BoxDecoration(
+                    //       color: Colors.white,
+                    //       gradient: LinearGradient(
+                    //         begin: FractionalOffset.center,
+                    //         end: FractionalOffset.bottomCenter,
+                    //         colors: [
+                    //           Colors.transparent.withOpacity(0.0),
+                    //           Colors.black
+                    //         ],
+                    //         stops: const [0.5, 1.0],
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Text(
-                            text,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyText2,
+                        Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black12,
+                            borderRadius: BorderRadius.only(bottomRight: Radius.circular(10) ,bottomLeft: Radius.circular(10), ),
+                          ),
+
+                          width: MediaQuery.of(context).size.width,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              text,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodyText2,
+                            ),
                           ),
                         ),
                       ],
                     )
-                  ],
+                    ),],
                 ),
               );
             },

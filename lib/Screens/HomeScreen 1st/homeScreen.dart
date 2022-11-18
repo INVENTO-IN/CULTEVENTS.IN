@@ -20,11 +20,10 @@ class HomeScreen extends StatelessWidget {
           appBar: AppBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            title: const Text(
-              "CultEvents",
-              style: TextStyle(
-                  color: Colors.black, fontFamily: 'Poppins', fontSize: 18),
-            ),
+            centerTitle: true,
+            title: SizedBox(
+                height: 50,
+                child: Image.asset("assets/images/cult_logo.png")),
           ),
           body: Consumer<NetworkServices>(
             builder: (ctx, network, child) {
