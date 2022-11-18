@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cult_events/Screens/HomeScreen%201st/near_u_inner_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -29,8 +30,21 @@ class NearYou extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: data.length,
             itemBuilder: (ctx, index) {
+              final id = FirebaseFirestore.instance
+                  .collection('nearYou')
+                  .doc(snapshot.data!.docs[index].id)
+                  .id;
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (ctx) => NearYouInner(
+                        uid: id,
+                        title: data[index]['title'],
+                      ),
+                    ),
+                  );
+                },
                 child: Padding(
                   padding: const EdgeInsets.only(
                       left: 10, right: 10, bottom: 0, top: 0),

@@ -1,18 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:flutter/material.dart";
 
-class InnerCategories extends StatelessWidget {
+class NearYouInner extends StatelessWidget {
   final String uid;
   final String title;
 
-  const InnerCategories({Key? key, required this.uid, required this.title})
+  const NearYouInner({Key? key, required this.uid, required this.title})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final Stream<QuerySnapshot<Map<String, dynamic>>> users = FirebaseFirestore
         .instance
-        .collection('categories')
+        .collection('nearYou')
         .doc(uid)
         .collection(title)
         .snapshots();
@@ -60,7 +60,7 @@ class InnerCategories extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 5),
             width: width,
             height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
+            child: GridView.builder(
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
@@ -130,7 +130,9 @@ class InnerCategories extends StatelessWidget {
                     ],
                   ),
                 );
-              },
+              }, gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+            ),
             ),
           );
         },

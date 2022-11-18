@@ -22,8 +22,8 @@ class HomeScreen extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: SizedBox(
-                height: 50,
-                child: Image.asset("assets/images/cult_logo.png")),
+              height: 45,
+              child: Image.asset("assets/images/Logo.png"),),
           ),
           body: Consumer<NetworkServices>(
             builder: (ctx, network, child) {
