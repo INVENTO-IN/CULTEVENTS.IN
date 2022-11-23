@@ -61,7 +61,7 @@ class NearYouInner extends StatelessWidget {
             width: width,
             height: MediaQuery.of(context).size.height,
             child: ListView.builder(
-
+//
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
